@@ -4,10 +4,17 @@
     "description": "The skeleton application for the Laravel framework.",
     "keywords": ["laravel", "framework"],
     "license": "MIT",
+    "repositories": [
+        {
+            "type": "path",
+            "url": "packages/LiteOpenSource/GeminiLiteLaravel"
+        }
+    ],
     "require": {
         "php": "^8.2",
         "laravel/framework": "^11.9",
-        "laravel/tinker": "^2.9"
+        "laravel/tinker": "^2.9",
+        "liteopensource/geminilite-laravel": "dev-main"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
