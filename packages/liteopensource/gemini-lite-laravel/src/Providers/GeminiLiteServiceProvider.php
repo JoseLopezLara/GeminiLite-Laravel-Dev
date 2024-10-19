@@ -5,7 +5,6 @@ namespace LiteOpenSource\GeminiLiteLaravel\Src\Providers;
 use Illuminate\Support\ServiceProvider;
 use LiteOpenSource\GeminiLiteLaravel\Src\Contracts\UploadFileToGeminiServiceInterface;
 use LiteOpenSource\GeminiLiteLaravel\Src\Services\UploadFileToGeminiService;
-use MiUsuario\EncryptionPackage\Contracts\EncryptionServiceInterface;
 
 class GeminiLiteServiceProvider extends ServiceProvider
 {
