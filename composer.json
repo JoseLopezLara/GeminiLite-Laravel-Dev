@@ -7,14 +7,14 @@
     "repositories": [
         {
             "type": "path",
-            "url": "packages/LiteOpenSource/GeminiLiteLaravel"
+            "url": "packages/liteopensource/gemini-lite-laravel"
         }
     ],
     "require": {
         "php": "^8.2",
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9",
-        "liteopensource/geminilite-laravel": "dev-main"
+        "liteopensource/gemini-lite-laravel": "dev-main"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

@@ -1,5 +1,5 @@
 {
-    "name": "lite-open-source/gemini-lite-laravel",
+    "name": "liteopensource/gemini-lite-laravel",
     "description": "Redisingned and easy to use Gemini Lite SDK for Laravel",
     "type": "library",
     "require": {
@@ -29,5 +29,6 @@
                 "UploadFileToGemini": "LiteOpenSource\\GeminiLiteLaravel\\Facades\\UploadFileToGemini"
             }
         }
-    }
+    },
+    "minimum-stability": "dev"
 }
