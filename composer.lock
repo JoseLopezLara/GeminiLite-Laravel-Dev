@@ -1831,12 +1831,13 @@
             "dist": {
                 "type": "path",
                 "url": "packages/liteopensource/gemini-lite-laravel",
-                "reference": "3bb3464fbdf6cd9f4ea444cf87811716a1fd0b72"
+                "reference": "d8146681a15c5cfb1d1962f1c8087d11059d9e5e"
             },
             "require": {
                 "guzzlehttp/guzzle": "^7.0",
                 "illuminate/console": "^9.0 || ^10.0 || ^11.0",
                 "illuminate/database": "^9.0 || ^10.0 || ^11.0",
+                "illuminate/http": "^9.0 || ^10.0 || ^11.0",
                 "illuminate/support": "^9.0 || ^10.0 || ^11.0",
                 "php": "^8.0"
             },

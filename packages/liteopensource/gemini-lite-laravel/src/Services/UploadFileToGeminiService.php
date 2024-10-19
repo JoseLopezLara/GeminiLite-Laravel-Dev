@@ -33,6 +33,10 @@ class UploadFileToGeminiService implements UploadFileToGeminiServiceInterface
         //Load and Process document
         try{
 
+            if (!$file instanceof \Illuminate\Http\UploadedFile) {
+                throw new \InvalidArgumentException('Invalid file object');
+            }
+
             $filePath = $file->getRealPath();
             $fileName = $file->getClientOriginalName();
             $fileSize = $file->getSize();
