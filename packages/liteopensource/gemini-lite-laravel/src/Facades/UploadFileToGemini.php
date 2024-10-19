@@ -8,7 +8,7 @@ class UploadFileToGemini extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'LiteOpenSource\GeminiLiteLaravel\Contracts\UploadFileToGeminiServiceInterface';
+        return 'LiteOpenSource\GeminiLiteLaravel\Src\Contracts\UploadFileToGeminiServiceInterface';
     }
 }
 

@@ -25,7 +25,7 @@ class UploadFileToGeminiTestController extends Controller
                 ], 404);
             }
             // Use Facades\UploadFileToGemini to test get URI and get file MIME type
-            $uri = UploadFileToGemini::getURI($testImagePath);
+            $uri = UploadFileToGemini::getURIFromPath($testImagePath);
 
             return response()->json([
                 'success' => true,
