@@ -2,6 +2,7 @@
 
 namespace LiteOpenSource\GeminiLiteLaravel\Src\Database\Seeders;
 
+
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
