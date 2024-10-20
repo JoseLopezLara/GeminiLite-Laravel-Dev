@@ -7,6 +7,8 @@ use LiteOpenSource\GeminiLiteLaravel\Src\Facades\UploadFileToGemini;
 
 class UploadFileToGeminiTestController extends Controller
 {
+    // - - - - - - - - - - Properties - - - - - - - - - -
+
     public function test(){
        return response()->json([
         'message' => 'This is a test controller for uploading files to Gemini']);
@@ -26,8 +28,10 @@ class UploadFileToGeminiTestController extends Controller
             }
 
             // Use Facades\UploadFileToGemini to test get URI and get file MIME type
-            $uri = UploadFileToGemini::getURIFromPath($testImagePath);
-            $mimeType = UploadFileToGemini::getfileMimeType();
+            $uploadFileToGeminiResult = UploadFileToGemini::processFileFromPath($testImagePath);
+            $uri = $uploadFileToGeminiResult->getUri();
+            $mimeType = $uploadFileToGeminiResult->getMimeType();
+
 
             return response()->json([
                 'success' => true,

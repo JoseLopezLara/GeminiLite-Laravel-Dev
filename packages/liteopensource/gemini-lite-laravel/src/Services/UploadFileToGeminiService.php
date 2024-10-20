@@ -8,12 +8,12 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ConnectException;
 use Exception;
 use Illuminate\Support\Facades\Log;
+use LiteOpenSource\GeminiLiteLaravel\Src\DataObjects\UploadFileToGeminiResult;
 
 class UploadFileToGeminiService implements UploadFileToGeminiServiceInterface
-
-
 {
     protected $fileMimeType;
+    protected $fileUri;
     private $secretAPIKey;
 
     public function __construct($secretAPIKey){
@@ -23,11 +23,27 @@ class UploadFileToGeminiService implements UploadFileToGeminiServiceInterface
         $this->fileMimeType = null;
     }
 
+    //TODO: DONNT WORK FOR THE MOMENT, WE HAVE TO NEED IF I ADD LIOVEWIRE TO USER FILES OR I ANLY TO WOR WITH PATHS
+    public function processFileFromFile($file): mixed
+    {
+        return $this->getURIFromFile($file);
+    }
+
+
+    public function processFileFromPath(string $filePath): UploadFileToGeminiResult
+    {
+        $this->getURIFromPath($filePath);
+
+        if ($this->fileUri === null || $this->fileMimeType === null) {
+            throw new \RuntimeException('File upload failed or resulted in null values');
+        }
+        return new UploadFileToGeminiResult( $this->fileUri, $this->fileMimeType);
+    }
 
     // ---------------------------------------------------------------
     // ----------------- GETTERS AND SETTERS SECTION -----------------
     // ---------------------------------------------------------------
-    public function getURIFromPath(string $filePath): mixed
+    public function getURIFromPath(string $filePath)
     {
         // return $this->getURI(new \Illuminate\Http\UploadedFile($path, basename($path)));
 
@@ -80,7 +96,8 @@ class UploadFileToGeminiService implements UploadFileToGeminiServiceInterface
 
             $fileUri = json_decode($response->getBody()->getContents())->file->uri;
 
-            return $fileUri;
+            $this->fileUri = $fileUri;
+            return;
 
         }catch(ConnectException $e){
             Log::error("SYSTEM THREW:: catch ConnectException in ProfessionalData.php: " . $e->getMessage());
@@ -166,10 +183,4 @@ class UploadFileToGeminiService implements UploadFileToGeminiServiceInterface
         }
     }
 
-
-
-    public function getfileMimeType(): string
-    {
-        return $this->fileMimeType ?? '';
-    }
 }
