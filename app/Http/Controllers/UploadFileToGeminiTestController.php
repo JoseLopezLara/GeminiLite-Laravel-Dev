@@ -16,7 +16,7 @@ class UploadFileToGeminiTestController extends Controller
     {
         try {
             // Use a test image path en storage/app/public/test_image.jpeg
-            $testImagePath = storage_path('app/public/test_image.jpeg');
+            $testImagePath = storage_path('app/public/test_pdf.pdf');
 
             if (!file_exists($testImagePath)) {
                 return response()->json([
@@ -24,27 +24,19 @@ class UploadFileToGeminiTestController extends Controller
                     'message' => 'Test image not found',
                 ], 404);
             }
+
             // Use Facades\UploadFileToGemini to test get URI and get file MIME type
             $uri = UploadFileToGemini::getURIFromPath($testImagePath);
+            $mimeType = UploadFileToGemini::getfileMimeType();
 
             return response()->json([
                 'success' => true,
-                'message' => 'Test for uploadFileToGeminiTestController',
+                'message' => 'Test successful',
                 'data' => [
-                    'uri' => $uri
+                    'uri' => $uri,
+                    'mimeType' => $mimeType
                 ]
             ]);
-
-            // $mimeType = UploadFileToGemini::getfileMimeType();
-
-            // return response()->json([
-            //     'success' => true,
-            //     'message' => 'Test successful',
-            //     'data' => [
-            //         'uri' => $uri,
-            //         'mimeType' => $mimeType
-            //     ]
-            // ]);
 
         } catch (\Exception $e) {
             return response()->json([

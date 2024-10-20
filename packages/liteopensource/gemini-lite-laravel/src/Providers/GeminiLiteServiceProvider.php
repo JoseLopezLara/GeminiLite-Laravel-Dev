@@ -11,13 +11,14 @@ class GeminiLiteServiceProvider extends ServiceProvider
     public function register()
     {
         // REGISTER: Merging config file to config file for Laravel APP
+        //TODO: This does not work, does't merge with config files
         $this->mergeConfigFrom(
             __DIR__.'/../../config/geminilite.php', 'geminilite'
         );
 
         // REGISTER: UploadFileToGeminiService ton service container
         $this->app->bind(UploadFileToGeminiServiceInterface::class, function ($app) {
-            $geminiLiteSecretApiKey = config('app.geminilite_secret_api_key');
+            $geminiLiteSecretApiKey = config('geminilite.geminilite_secret_api_key');
             return new UploadFileToGeminiService($geminiLiteSecretApiKey);
         });
     }
@@ -30,6 +31,7 @@ class GeminiLiteServiceProvider extends ServiceProvider
         ], 'geminilite-config');
 
         // PUBLISH: Migrations
+        //TODO: This does not work, does't copy migratioons to migrations folder
         $this->publishesMigrations([
             __DIR__ . '/../database/migrations' => database_path('migrations')
         ]);
