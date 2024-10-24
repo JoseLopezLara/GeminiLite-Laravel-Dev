@@ -2,7 +2,7 @@
 
 namespace Liteopensource\GeminiLiteLaravel\Src\Traits;
 
-trait GeminiAPIJSONProperties
+trait GeminiRequestAndResponsesJSONStructures
 {
     // This array belong to "constest" property from main JSON to do the request.
     // In adition, save the "newTexMessage" strutures to represent the history of conversationj
@@ -33,15 +33,6 @@ trait GeminiAPIJSONProperties
                 ]
             ]
         ]
-    ];
-
-    // Model Config structure that represente the JSON config and has default config
-    private $modelConfigJSON = [
-        "temperature" => 1,
-        "topK" => 64,
-        "topP" => 0.95,
-        "maxOutputTokens" => 8192,
-        "responseMimeType" => "text/plain"
     ];
 
     // Body of request
