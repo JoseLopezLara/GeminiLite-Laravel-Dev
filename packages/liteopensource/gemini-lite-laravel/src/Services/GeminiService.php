@@ -5,6 +5,7 @@ namespace LiteOpenSource\GeminiLiteLaravel\Src\Services;
 use GuzzleHttp\Client;
 //TODO: Che if I need to add Exceptions and Logs
 use Exception;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Log;
 use Liteopensource\GeminiLiteLaravel\Src\Clases\GeminiChat;
 use LiteOpenSource\GeminiLiteLaravel\Src\Contracts\GeminiServiceInterface;
@@ -23,6 +24,10 @@ class GeminiService implements GeminiServiceInterface
     use GeminiConfigAndPropertiesJSONStructures;
     //Guzzle client
     private $guzzleClient;
+
+    private $geminiChatInstaces;
+
+    //TODO: Does't use by the moment, verify if it's needed
     // URL TO MAKE REQUEST
     private $urlAPI = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=';
 
@@ -33,6 +38,7 @@ class GeminiService implements GeminiServiceInterface
 
         $this->guzzleClient = new Client();
         $this->initDefaultConfigGeminiAPIJSON($secretAPIKey);
+        $this->geminiChatInstaces = new Collection();
     }
 
     //---------------------- INTERFACE FUNCTIONS SECTION -----------------------
@@ -41,7 +47,9 @@ class GeminiService implements GeminiServiceInterface
     public function gemini(): mixed
     {
         $geminiModelConfig = $this->getGeminiModelConfig();
-        return new GeminiChat($geminiModelConfig, $this->guzzleClient);
+        $geniniChatInstace = new GeminiChat($geminiModelConfig, $this->guzzleClient);
+        $this->geminiChatInstaces->push($geniniChatInstace);
+        return $geniniChatInstace;
     }
 
     //TODO: I should return a array instead mixed type
@@ -52,7 +60,7 @@ class GeminiService implements GeminiServiceInterface
         return $this->modelConfigJSON;
     }
 
-    public function setGeminiModelConfig($temperature, $topK, $topP, $maxOutputTokens, $responseMimeType)
+    public function setGeminiModelConfig($temperature, $topK, $topP, $maxOutputTokens, $responseMimeType, $geminiChatinstance)
     {
         $this->modelConfigJSON['temperature'] = $temperature;
         $this->modelConfigJSON['top_k'] = $topK;
@@ -60,6 +68,10 @@ class GeminiService implements GeminiServiceInterface
         $this->modelConfigJSON['max_output_tokens'] = $maxOutputTokens;
         $this->modelConfigJSON['response_content_type'] = $responseMimeType;
         // TODO: Verify if I need to add urlAPI to change between models
+
+        if ($this->geminiChatInstaces->contains($geminiChatinstance)) {
+            $geminiChatinstance->updateConfig($this->modelConfigJSON);
+        }
     }
 
     //------------------------ OTHER FUNCTIONS SECTION -------------------------

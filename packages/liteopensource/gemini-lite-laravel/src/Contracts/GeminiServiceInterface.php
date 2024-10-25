@@ -8,7 +8,7 @@ interface GeminiServiceInterface
     public function gemini(): mixed;
 
     //TODO: Change mixed return types to appropriate types
-    public function setGeminiModelConfig($temperature, $topK, $topP, $maxOutputTokens, $responseMimeType);
+    public function setGeminiModelConfig($temperature, $topK, $topP, $maxOutputTokens, $responseMimeType, $geminiChatinstance);
 
     //TODO: Change mixed return types to appropriate types
     public function getGeminiModelConfig(): mixed;

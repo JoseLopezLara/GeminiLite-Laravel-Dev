@@ -175,5 +175,10 @@ class GeminiChat implements GeminiChatInterface
         $this->totalTokenHistoryChatCount += $this->totalTokenCount;
     }
 
+    public function updateGeminiModelConfig($newGeminiModelConfig)
+    {
+        $this->geminiModelConfig = array_merge($this->geminiModelConfig, $newGeminiModelConfig);
+    }
+
 
 }

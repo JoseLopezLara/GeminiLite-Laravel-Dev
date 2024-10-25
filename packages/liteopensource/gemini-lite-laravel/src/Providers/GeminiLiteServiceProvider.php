@@ -3,7 +3,9 @@
 namespace LiteOpenSource\GeminiLiteLaravel\Src\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use LiteOpenSource\GeminiLiteLaravel\Src\Contracts\GeminiServiceInterface;
 use LiteOpenSource\GeminiLiteLaravel\Src\Contracts\UploadFileToGeminiServiceInterface;
+use LiteOpenSource\GeminiLiteLaravel\Src\Services\GeminiService;
 use LiteOpenSource\GeminiLiteLaravel\Src\Services\UploadFileToGeminiService;
 
 class GeminiLiteServiceProvider extends ServiceProvider
@@ -16,10 +18,16 @@ class GeminiLiteServiceProvider extends ServiceProvider
             __DIR__.'/../../config/geminilite.php', 'geminilite'
         );
 
-        // REGISTER: UploadFileToGeminiService ton service container
+        // REGISTER: UploadFileToGeminiService to service container
         $this->app->bind(UploadFileToGeminiServiceInterface::class, function ($app) {
             $geminiLiteSecretApiKey = config('geminilite.geminilite_secret_api_key');
             return new UploadFileToGeminiService($geminiLiteSecretApiKey);
+        });
+
+        // REGISTER: GeminiService to service container
+        $this->app->bind(GeminiServiceInterface::class, function ($app){
+            $geminiLiteSecretApiKey = config('geminilite.geminilite_secret_api_key');
+            return new GeminiService($geminiLiteSecretApiKey );
         });
     }
 
@@ -36,6 +44,7 @@ class GeminiLiteServiceProvider extends ServiceProvider
             __DIR__ . '/../database/migrations' => database_path('migrations')
         ]);
 
+        //TODO: Try if this works and it's necesary
         // PUBLISH: Comand tha run seeder comand using "php artisan geminilite:seed"
         if ($this->app->runningInConsole()) {
             $this->commands([
