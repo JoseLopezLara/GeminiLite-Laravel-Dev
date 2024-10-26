@@ -63,10 +63,10 @@ class GeminiService implements GeminiServiceInterface
     public function setGeminiModelConfig($temperature, $topK, $topP, $maxOutputTokens, $responseMimeType, $geminiChatinstance)
     {
         $this->modelConfigJSON['temperature'] = $temperature;
-        $this->modelConfigJSON['top_k'] = $topK;
-        $this->modelConfigJSON['top_p'] = $topP;
-        $this->modelConfigJSON['max_output_tokens'] = $maxOutputTokens;
-        $this->modelConfigJSON['response_content_type'] = $responseMimeType;
+        $this->modelConfigJSON['topK'] = $topK;
+        $this->modelConfigJSON['topP'] = $topP;
+        $this->modelConfigJSON['maxOutputTokens'] = $maxOutputTokens;
+        $this->modelConfigJSON['responseMimeType'] = $responseMimeType;
         // TODO: Verify if I need to add urlAPI to change between models
         // TODO: Since delete urlAPI to modelCongidJSON structure, I will send the urlAPI in updateConfig function to changeConfig medel, Like a do in geminiChat constructor
 
@@ -82,10 +82,10 @@ class GeminiService implements GeminiServiceInterface
     private function initDefaultConfigGeminiAPIJSON($secretAPIKey)
     {
         $this->modelConfigJSON['temperature'] = 1;
-        $this->modelConfigJSON['top_k'] = 64;
-        $this->modelConfigJSON['top_p'] = 0.95;
-        $this->modelConfigJSON['max_output_tokens'] = 8192;
-        $this->modelConfigJSON['response_content_type'] = "text/plain";
+        $this->modelConfigJSON['topK'] = 64;
+        $this->modelConfigJSON['topP'] = 0.95;
+        $this->modelConfigJSON['maxOutputTokens'] = 8192;
+        $this->modelConfigJSON['responseMimeType'] = "text/plain";
         //TODO: I think that is correct config secret apiKey here, but... I can to do this in the trait
         $this->urlAPItoGeminiFlash = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" . $secretAPIKey;
     }
