@@ -1,13 +1,12 @@
 <?php
-namespace Liteopensource\GeminiLiteLaravel\Src\Clases;
+namespace LiteOpenSource\GeminiLiteLaravel\Src\Clases;
 
 use LiteOpenSource\GeminiLiteLaravel\Src\Contracts\GeminiChatInterface;
-use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ConnectException;
 use Exception;
 use Illuminate\Support\Facades\Log;
-use Liteopensource\GeminiLiteLaravel\Src\Traits\GeminiRequestAndResponsesJSONStructures;
+use LiteOpenSource\GeminiLiteLaravel\Src\Traits\GeminiRequestAndResponsesJSONStructures;
 
 class GeminiChat implements GeminiChatInterface
 {

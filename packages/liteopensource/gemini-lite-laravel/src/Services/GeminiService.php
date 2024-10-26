@@ -7,9 +7,10 @@ use GuzzleHttp\Client;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Log;
-use Liteopensource\GeminiLiteLaravel\Src\Clases\GeminiChat;
+use LiteOpenSource\GeminiLiteLaravel\Src\Clases\GeminiChat;
 use LiteOpenSource\GeminiLiteLaravel\Src\Contracts\GeminiServiceInterface;
-use Liteopensource\GeminiLiteLaravel\Src\Traits\GeminiConfigAndPropertiesJSONStructures;
+use LiteOpenSource\GeminiLiteLaravel\Src\Traits\GeminiConfigAndPropertiesJSONStructures;
+
 
 class GeminiService implements GeminiServiceInterface
 {

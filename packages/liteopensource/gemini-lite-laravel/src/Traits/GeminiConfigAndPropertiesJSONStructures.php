@@ -1,6 +1,6 @@
 <?php
 
-namespace Liteopensource\GeminiLiteLaravel\Src\Traits;
+namespace LiteOpenSource\GeminiLiteLaravel\Src\Traits;
 
 trait GeminiConfigAndPropertiesJSONStructures
 {
