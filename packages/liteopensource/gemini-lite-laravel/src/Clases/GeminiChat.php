@@ -47,6 +47,8 @@ class GeminiChat implements GeminiChatInterface
 
     public function newPrompt($textPrompt, $fileURI = null, $mimeTipe = null): mixed
     {
+        Log::info("[ IN GeminiChat ->  newPrompt: ]. Gemini current model config: ", [$this->geminiModelConfig]);
+
         // Assembling JSON File Request
         ($fileURI && $mimeTipe)
             ? $this->assemblingJSONFileRequest($textPrompt, $fileURI, $mimeTipe)
@@ -127,19 +129,32 @@ class GeminiChat implements GeminiChatInterface
     }
 
     public function assemblingJSONTextRequest($textPrompt){
+        Log::info("[ IN GeminiChat ->  assemblingJSONTextRequest: ]. textPrompt received: " , [$textPrompt]);
+
+
         // Assembling text prompt
         $this->newTextMessageJSON['parts'][0]['text'] = $textPrompt;
         $this->newTextMessageJSON['role'] = "user";
 
         array_push($this->chatHistoryJSON, $this->newTextMessageJSON);
+        Log::info("[ IN GeminiChat ->  assemblingJSONTextRequest: ]. newTextMessageJSON: " , [$this->newTextMessageJSON]);
+        Log::info("[ IN GeminiChat ->  assemblingJSONTextRequest: ]. chatHistoryJSON: " , [$this->chatHistoryJSON]);
+
+
 
         // Assembling body of request
         $this->bodyJSON['contents'] = $this->chatHistoryJSON;
         $this->bodyJSON['generationConfig'] = $this->geminiModelConfig;
+        Log::info("[ IN GeminiChat ->  assemblingJSONTextRequest: ]. bodyJSON: " , [$this->bodyJSON]);
+
     }
 
     public function makeTextRequestToGeminiAPI(){
         // Make Request to Google Gemini REST API and get data from body
+        Log::info("[ IN GeminiChat ->  makeTextRequestToGeminiAPI: ]. headersJSON" , [$this->headersJSON]);
+        Log::info("[ IN GeminiChat ->  makeTextRequestToGeminiAPI: ]. geminiModelConfig" , [$this->geminiModelConfig]);
+
+
         $response = $this->guzzleClient->request('POST', $this->geminiModelConfig["url_API"], [
             'headers' => $this->headersJSON,
             'json' => $this->bodyJSON

@@ -22,12 +22,14 @@ class GeminiTestController extends Controller
 
             // Use Facades\Gemini to do a text prompt and get the response
             $gemini = Gemini::gemini();
-            $response = $gemini->newPrompt('Genera una historia fantasiosa donde el personaje principal
-                                es un conejo punk. El hoobie de este conejo punk es aportar
-                                en proyecto open source pero un dia descubrio un backdoor en
-                                el proyecto de react... Continua con la historia. la historia
-                                no debe de ser mayor a 120 palabras y debe ser dirigida a un
-                                publico adulto (Usa humor negro)');
+            // $response = $gemini->newPrompt('Genera una historia fantasiosa donde el personaje principal
+            //                     es un conejo punk. El hoobie de este conejo punk es aportar
+            //                     en proyecto open source pero un dia descubrio un backdoor en
+            //                     el proyecto de react... Continua con la historia. la historia
+            //                     no debe de ser mayor a 120 palabras y debe ser dirigida a un
+            //                     publico adulto (Usa humor negro)');
+
+            $response = $gemini->newPrompt('¿Cuál es tu hobby favorito?');
 
             return response()->json([
                 'success' => true,

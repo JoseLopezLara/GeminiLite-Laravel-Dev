@@ -47,6 +47,8 @@ class GeminiService implements GeminiServiceInterface
     //TODO: I should return a interface object of GeniniChat class instead mixed type
     public function gemini(): mixed
     {
+        Log::info("[ IN GeminiService ->  gemini(): ]. ");
+
         $geminiModelConfig = $this->getGeminiModelConfig();
         $geniniChatInstace = new GeminiChat($geminiModelConfig, $this->guzzleClient);
         $this->geminiChatInstaces->push($geniniChatInstace);
