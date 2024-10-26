@@ -23,23 +23,31 @@ class GeminiChat implements GeminiChatInterface
     // --> "candidatesTokenCount" represent the number of tokens returned to last respose
     // --> "totalTokenCount" represent the number of total tokens
     //      between input and output
+
+    // TODO: - - - IMPORTANT --> I have to do private these properties <-- IMPORTANT - - -
+    // TODO: - - - IMPORTANT --> I have to do private these properties <-- IMPORTANT - - -
+    // TODO: - - - IMPORTANT --> I have to do private these properties <-- IMPORTANT - - -
     public $promptTokenCount;
     public $candidatesTokenCount;
     public $totalTokenCount;
     public $totalTokenHistoryChatCount;
+    private $urlAPIModel;
 
 
     //---------------------------- CONSTRUCTOR SECTION --------------------------
     //---------------------------- CONSTRUCTOR SECTION --------------------------
-    public function __construct($geminiModelConfig, $guzzleClient)
+    public function __construct($geminiModelConfig, $guzzleClient, $urlAPIModel)
     {
         $this->initGlobalProperties();
         $this->geminiModelConfig = $geminiModelConfig;
         $this->guzzleClient = $guzzleClient;
+        $this->urlAPIModel = $urlAPIModel;
     }
 
     //---------------------- INTERFACE FUNCTIONS SECTION -----------------------
     //---------------------- INTERFACE FUNCTIONS SECTION -----------------------
+    // TODO: Add function in future
+
     public function getHistory(): mixed
     {
         return true;
@@ -47,7 +55,7 @@ class GeminiChat implements GeminiChatInterface
 
     public function newPrompt($textPrompt, $fileURI = null, $mimeTipe = null): mixed
     {
-        Log::info("[ IN GeminiChat ->  newPrompt: ]. Gemini current model config: ", [$this->geminiModelConfig]);
+        Log::info("[ IN GeminiChat ->  newPrompt: ]. Gemini current model config: ", [$this->geminiModelConfig, $this->urlAPIModel]);
 
         // Assembling JSON File Request
         ($fileURI && $mimeTipe)
@@ -109,24 +117,7 @@ class GeminiChat implements GeminiChatInterface
         $this->bodyJSON['generationConfig'] = $this->geminiModelConfig;
     }
 
-    public function makeFileRequestToGeminiAPI(){
-        // Make Request to Google Gemini REST API and get data from body
-        $response = $this->guzzleClient->request('POST', $this->geminiModelConfig['url_API'], [
-            'headers' => $this->headersJSON,
-            'json' => $this->bodyJSON
-        ]);
 
-        $responseData = json_decode($response->getBody()->getContents(), true);
-
-
-
-        // Get text message, update chat history and return response
-        $responseTextMessage = $responseData['candidates'][0]['content']['parts'][0]['text'];
-
-        $this->addResponseToChatHistory($responseTextMessage, $responseData);
-
-        return $responseTextMessage;
-    }
 
     public function assemblingJSONTextRequest($textPrompt){
         Log::info("[ IN GeminiChat ->  assemblingJSONTextRequest: ]. textPrompt received: " , [$textPrompt]);
@@ -153,14 +144,34 @@ class GeminiChat implements GeminiChatInterface
         // Make Request to Google Gemini REST API and get data from body
         Log::info("[ IN GeminiChat ->  makeTextRequestToGeminiAPI: ]. headersJSON" , [$this->headersJSON]);
         Log::info("[ IN GeminiChat ->  makeTextRequestToGeminiAPI: ]. geminiModelConfig" , [$this->geminiModelConfig]);
+        Log::info("[ IN GeminiChat ->  makeTextRequestToGeminiAPI: ]. urlAPIModel" , [$this->urlAPIModel]);
 
 
-        $response = $this->guzzleClient->request('POST', $this->geminiModelConfig["url_API"], [
+        $response = $this->guzzleClient->request('POST', $this->urlAPIModel, [
             'headers' => $this->headersJSON,
             'json' => $this->bodyJSON
         ]);
 
         $responseData = json_decode($response->getBody()->getContents(), true);
+
+        // Get text message, update chat history and return response
+        $responseTextMessage = $responseData['candidates'][0]['content']['parts'][0]['text'];
+
+        $this->addResponseToChatHistory($responseTextMessage, $responseData);
+
+        return $responseTextMessage;
+    }
+
+    public function makeFileRequestToGeminiAPI(){
+        // Make Request to Google Gemini REST API and get data from body
+        $response = $this->guzzleClient->request('POST', $this->urlAPIModel, [
+            'headers' => $this->headersJSON,
+            'json' => $this->bodyJSON
+        ]);
+
+        $responseData = json_decode($response->getBody()->getContents(), true);
+
+
 
         // Get text message, update chat history and return response
         $responseTextMessage = $responseData['candidates'][0]['content']['parts'][0]['text'];

@@ -10,8 +10,12 @@ trait GeminiConfigAndPropertiesJSONStructures
         "top_k" => 64,
         "top_p" => 0.95,
         "max_output_tokens" => 8192,
-        "response_content_type" => "text/plain",
-        "url_API" => "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key="
+        "response_content_type" => "text/plain"
     ];
+
+    private $urlAPItoGeminiFlash = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=";
+
+    //TODO: Add gemini model url here
+    private $urlAPItoGeminiPro = "";
 
 }
