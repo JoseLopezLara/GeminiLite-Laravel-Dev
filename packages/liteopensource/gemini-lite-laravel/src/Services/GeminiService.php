@@ -41,7 +41,7 @@ class GeminiService implements GeminiServiceInterface
     //---------------------- INTERFACE FUNCTIONS SECTION -----------------------
     //---------------------- INTERFACE FUNCTIONS SECTION -----------------------
     //TODO: I should return a interface object of GeniniChat class instead mixed type
-    public function gemini(): mixed
+    public function newChat(): mixed
     {
         Log::info("[ IN GeminiService ->  gemini(): ]. ");
 
