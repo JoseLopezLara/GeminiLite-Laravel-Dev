@@ -29,7 +29,8 @@
                 "LiteOpenSource\\GeminiLiteLaravel\\Src\\Providers\\GeminiLiteServiceProvider"
             ],
             "aliases": {
-                "UploadFileToGemini": "LiteOpenSource\\GeminiLiteLaravel\\Src\\Facades\\UploadFileToGemini"
+                "UploadFileToGemini": "LiteOpenSource\\GeminiLiteLaravel\\Src\\Facades\\UploadFileToGemini",
+                "Gemini": "LiteOpenSource\\GeminiLiteLaravel\\Src\\Facades\\Gemini"
             }
         }
     }
