@@ -90,26 +90,40 @@ class GeminiTestController extends Controller
 
             Log::info('-------------Init chat-----------------');
             $geminiChat1 = Gemini::newChat();
+            Log::info('-------------Change config-----------------');
+            $geminiChat1->setGeminiModelConfig(1, 40, 0.95, 8192, 'text/plain');
             Log::info('-------------First prompt-----------------');
             $response1 = $geminiChat1->newPrompt("Describe cómo sería la vida diaria en una ciudad futurista en el año 2150 en 80 palabras");
+
+            Log::info('-------------Init chat-----------------');
+            $geminiChat2 = Gemini::newChat();
             Log::info('-------------Change config-----------------');
-            Log::info('-------------BEFORE CHANGE-----------------: ' . spl_object_id($geminiChat1));
+            $geminiChat2->setGeminiModelConfig(0, 40, 0, 8192, 'text/plain');
+            Log::info('-------------First prompt-----------------');
+            $response2 = $geminiChat2->newPrompt("Describe cómo sería la vida diaria en una ciudad futurista en el año 2150 en 80 palabras");
 
+            Log::info('-------------Init chat-----------------');
+            $geminiChat3 = Gemini::newChat();
+            Log::info('-------------Change config-----------------');
+            $geminiChat3->setGeminiModelConfig(2, 64, 1, 8192, 'text/plain');
+            Log::info('-------------First prompt-----------------');
+            $response3 = $geminiChat3->newPrompt("Describe cómo sería la vida diaria en una ciudad futurista en el año 2150 en 80 palabras");
 
-            Gemini::setGeminiModelConfig(0, 40, 0, 8192, 'text/plain', $geminiChat1);
-            Log::info('-------------Second prompt-----------------');
-            $response2 = $geminiChat1->newPrompt("Describe cómo sería la vida diaria en una ciudad futurista en el año 2150 en 80 palabras");
-
-            // $geminiChat2 = Gemini::newChat();
-            // Gemini::setGeminiModelConfig(2, 40, 1, 8192, 'text/plain', $geminiChat2);
-            // $response2 = $geminiChat2->newPrompt("Describe cómo sería la vida diaria en una ciudad futurista en el año 2150 en 80 palabras");
+            // return response()->json([
+            //     'success' => true,
+            //     'message' => 'Test successful',
+            //     'data' => [
+            //         'response with: temperature 1 and topP 0.95' => $response1
+            //     ]
+            // ], 200);
 
             return response()->json([
                 'success' => true,
                 'message' => 'Test successful',
                 'data' => [
-                    'response with: temperature 0 and topP 0' => $response1,
-                    'response with: temperature 2 and topP 1' => $response2
+                    'response with: temperature 1 and topP 0.95' => $response1,
+                    'response with: temperature 0 and topP 0' => $response2,
+                    'response with: temperature 2 and topP 1' => $response3
                 ]
             ], 200);
 
