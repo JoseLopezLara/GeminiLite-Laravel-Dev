@@ -13,9 +13,11 @@ trait GeminiConfigAndPropertiesJSONStructures
         "responseMimeType" => "text/plain"
     ];
 
-    private $urlAPItoGeminiFlash = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=";
+    private $currentGeminiModel = "";
 
-    //TODO: Add gemini model url here
-    private $urlAPItoGeminiPro = "";
+    private $urlAPItoGeminiFlash = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=";
+    private $urlAPItoGeminiPro = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=";
+
+    // TODO: Add other gemini models here:
 
 }

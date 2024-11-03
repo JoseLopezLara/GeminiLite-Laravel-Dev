@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use LiteOpenSource\GeminiLiteLaravel\Src\Facades\Gemini;
 use LiteOpenSource\GeminiLiteLaravel\Src\Facades\UploadFileToGemini;
+use Log;
+use Symfony\Component\HttpKernel\Log\Logger;
 
 class GeminiTestController extends Controller
 {
@@ -66,6 +68,48 @@ class GeminiTestController extends Controller
                 'data' => [
                     'response' => $response,
                     'responseAboutInitialPrompt' => $responseAboutInitialPrompt
+                ]
+            ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Test failed',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function testGeminiPromptsConfig()
+    {
+        try {
+            // OBJETIVE OF THIS TEST:
+            // Thist test has to verify that you can change the config of the Gemini in "execute time",
+            // in other words, you can modify config parameters with out need to create a new instace of Gemini.
+            // You can change this config parameters and keep your history chat.
+
+            Log::info('-------------Init chat-----------------');
+            $geminiChat1 = Gemini::newChat();
+            Log::info('-------------First prompt-----------------');
+            $response1 = $geminiChat1->newPrompt("Describe cómo sería la vida diaria en una ciudad futurista en el año 2150 en 80 palabras");
+            Log::info('-------------Change config-----------------');
+            Log::info('-------------BEFORE CHANGE-----------------: ' . spl_object_id($geminiChat1));
+
+
+            Gemini::setGeminiModelConfig(0, 40, 0, 8192, 'text/plain', $geminiChat1);
+            Log::info('-------------Second prompt-----------------');
+            $response2 = $geminiChat1->newPrompt("Describe cómo sería la vida diaria en una ciudad futurista en el año 2150 en 80 palabras");
+
+            // $geminiChat2 = Gemini::newChat();
+            // Gemini::setGeminiModelConfig(2, 40, 1, 8192, 'text/plain', $geminiChat2);
+            // $response2 = $geminiChat2->newPrompt("Describe cómo sería la vida diaria en una ciudad futurista en el año 2150 en 80 palabras");
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Test successful',
+                'data' => [
+                    'response with: temperature 0 and topP 0' => $response1,
+                    'response with: temperature 2 and topP 1' => $response2
                 ]
             ], 200);
 
