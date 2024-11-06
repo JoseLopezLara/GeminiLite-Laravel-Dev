@@ -214,11 +214,38 @@ class GeminiTestController extends Controller
                 textPrompt: "Generate a list of cookie recipes. Make the outputs in JSON format.",
             );
 
+            $response1 = $geminiChat1->newPrompt(
+                textPrompt: "Generate a list of cookie recipes. Make the outputs in JSON format.",
+            );
+
+            Log::info('-------------DEBUG-----------------');
+            Log::info($response1);
+            Log::info('-------------DEBUG-----------------');
+
+            Log::info('-------------DEBUG-----------------');
+            $response1_decode_to_object = json_decode($response1);
+            Log::info($response1_decode_to_object->recipes);
+            Log::info('-------------DEBUG-----------------');
+
+            Log::info('-------------DEBUG-----------------');
+            $response1_decode_array = json_decode($response1, true);
+            Log::info($response1_decode_array['recipes'][0]['recipe_name']);
+            Log::info('-------------DEBUG-----------------');
+
+            Log::info('-------------DEBUG-----------------');
+            $response1_decode_object = json_decode($response1);
+            Log::info($response1_decode_object->recipes[0]->recipe_name);
+            Log::info('-------------DEBUG-----------------');
+
+
+
             return response()->json([
                 'success' => true,
                 'message' => 'Test successful',
                 'data' => [
-                    'JOSN Mode test' => $response1
+                    'recipes' => $response1_decode_to_object->recipes,
+                    'get_first_recipe_name_form_array_decode' => $response1_decode_array['recipes'][0]['recipe_name'],
+                    'get_first_recipe_name_form_object_decode' => $response1_decode_object->recipes[0]->recipe_name
                 ]
             ], 200);
 
