@@ -84,13 +84,23 @@ class GeminiChat implements GeminiChatInterface
         return $this->modelConfigJSON;
     }
 
-    public function setGeminiModelConfig($temperature, $topK, $topP, $maxOutputTokens, $responseMimeType)
+    public function setGeminiModelConfig($temperature, $topK, $topP, $maxOutputTokens, $responseMimeType, $responseSchema = null)
     {
         $this->modelConfigJSON['temperature'] = $temperature;
         $this->modelConfigJSON['topK'] = $topK;
         $this->modelConfigJSON['topP'] = $topP;
         $this->modelConfigJSON['maxOutputTokens'] = $maxOutputTokens;
         $this->modelConfigJSON['responseMimeType'] = $responseMimeType;
+
+        //Add response schema if provided. When is printed tha it mean that user is using JSON MODE
+        if($responseSchema != null){
+            $this->responseSchema = $responseSchema;
+
+            $this->modelConfigJSON = array_merge($this->modelConfigJSON, $responseSchema);
+
+            Log::info("[ IN GeminiChat ->  setGeminiModelConfig: ]. Gemini current model config: ", [$this->modelConfigJSON]);
+        }
+
 
         // TODO: Verify if I need to add urlAPI to change between models HERE
         // TODO: Maybe is better desition crear a specific fuction to change model into interface

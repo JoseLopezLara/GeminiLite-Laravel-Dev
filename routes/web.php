@@ -14,5 +14,6 @@ Route::get('/test', [UploadFileToGeminiTestController::class, 'test']);
 //Gemini
 Route::get('/testGeminiPrompts', [GeminiTestController::class, 'testGeminiPrompts']);
 Route::get('/testGeminiPromptsConfig', [GeminiTestController::class, 'testGeminiPromptsConfig']);
+Route::get('/testGeminiJSONMode', [GeminiTestController::class, 'testGeminiJSONMode']);
 Route::get('/testGemini', [GeminiTestController::class, 'testGemini']);
 

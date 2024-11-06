@@ -5,6 +5,7 @@ namespace LiteOpenSource\GeminiLiteLaravel\Src\Contracts;
 interface GeminiChatInterface
 {
     //TODO: Change mixed return types to appropriate types
+    // ! TODO: Change structure of the parameters recived
     public function newPrompt($textPrompt, $fileURI = null, $mimeTipe = null): mixed;
 
     //TODO: Change mixed return types to appropriate types
@@ -12,7 +13,7 @@ interface GeminiChatInterface
     public function getHistory(): mixed;
 
     //TODO: Change mixed return types to appropriate types
-    public function setGeminiModelConfig($temperature, $topK, $topP, $maxOutputTokens, $responseMimeType);
+    public function setGeminiModelConfig($temperature, $topK, $topP, $maxOutputTokens, $responseMimeType, $responseSchema = null);
 
     //TODO: Change mixed return types to appropriate types
     public function getGeminiModelConfig(): mixed;

@@ -13,8 +13,9 @@ trait GeminiConfigAndPropertiesJSONStructures
         "responseMimeType" => "text/plain"
     ];
 
+    // Response schema structure that represente the JSON schema response when you use JSON MODE
+    private $responseSchema = [];
     private $currentGeminiModel = "";
-
     private $urlAPItoGeminiFlash = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=";
     private $urlAPItoGeminiPro = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=";
 

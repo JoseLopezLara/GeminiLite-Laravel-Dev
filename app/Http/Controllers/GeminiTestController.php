@@ -135,4 +135,100 @@ class GeminiTestController extends Controller
             ], 500);
         }
     }
+
+    public function testGeminiJSONMode()
+    {
+        try {
+            // OBJETIVE OF THIS TEST:
+            // Thist test has to verify that you can change the config of the Gemini in "execute time",
+            // in other words, you can modify config parameters with out need to create a new instace of Gemini.
+            // You can change this config parameters and keep your history chat.
+            $responseSchema = [
+                "responseSchema" => [
+                    "type" => "object",
+                    "description" => "Return some of the most popular cookie recipes",
+                    "properties" => [
+                        "recipes" => [
+                            "type" => "array",
+                            "items" => [
+                                "type" => "object",
+                                "properties" => [
+                                    "recipe_name" => [
+                                        "type" => "string",
+                                        "description" => "name of recipe using upper case"
+                                    ],
+                                    "ingredients_number" => [
+                                        "type" => "number"
+                                    ]
+                                ],
+                                "required" => [
+                                    "recipe_name",
+                                    "ingredients_number"
+                                ]
+                            ]
+                        ],
+                        "status_response" => [
+                            "type" => "array",
+                            "items" => [
+                                "type" => "object",
+                                "properties" => [
+                                    "sucess" => [
+                                        "type" => "string",
+                                        "description" => "Short message in uppercase about request"
+                                    ],
+                                    "code" => [
+                                        "type" => "string",
+                                        "description" => "Status code",
+                                        "enum" => [
+                                            "200",
+                                            "400"
+                                        ]
+                                    ]
+                                ],
+                                "required" => [
+                                    "sucess",
+                                    "code"
+                                ]
+                            ]
+                        ]
+                    ],
+                    "required" => [
+                        "recipes",
+                        "status_response"
+                    ]
+                ]
+            ];
+
+            Log::info('-------------Init chat-----------------');
+            $geminiChat1 = Gemini::newChat();
+            Log::info('-------------Change config has to gemini response in "application/json" instead "text/plain"-----------------');
+            $geminiChat1->setGeminiModelConfig(
+                temperature: 1,
+                topK: 40,
+                topP: 0.95,
+                maxOutputTokens: 8192,
+                responseMimeType: 'application/json',
+                responseSchema: $responseSchema);
+            Log::info('-------------First prompt-----------------');
+            $response1 = $geminiChat1->newPrompt(
+                textPrompt: "Generate a list of cookie recipes. Make the outputs in JSON format.",
+            );
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Test successful',
+                'data' => [
+                    'JOSN Mode test' => $response1
+                ]
+            ], 200);
+
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Test failed',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 }
