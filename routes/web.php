@@ -16,4 +16,5 @@ Route::get('/testGeminiPrompts', [GeminiTestController::class, 'testGeminiPrompt
 Route::get('/testGeminiPromptsConfig', [GeminiTestController::class, 'testGeminiPromptsConfig']);
 Route::get('/testGeminiJSONMode', [GeminiTestController::class, 'testGeminiJSONMode']);
 Route::get('/testGemini', [GeminiTestController::class, 'testGemini']);
+Route::get('/testGeminiPromptNutritionSumary', [GeminiTestController::class, 'testGeminiPromptNutritionSumary']);
 

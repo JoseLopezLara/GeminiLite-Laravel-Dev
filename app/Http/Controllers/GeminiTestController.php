@@ -258,4 +258,195 @@ class GeminiTestController extends Controller
             ], 500);
         }
     }
+
+    public function testGeminiPromptNutritionSumary()
+    {
+        try {
+            // OBJETIVE OF THIS TEST:
+
+            $responseSchema = [
+                "responseSchema" => [
+                    "type" => "object",
+                    "description" => "This JSON object represents the structured nutritional information response provided by Gemini after analyzing an image of a food dish, appetizer, beverage, or general food item.",
+                    "properties" => [
+                        "status" => [
+                            "type" => "string",
+                            "description" => "Indicates 'success' if the provided image corresponds to a food item or beverage with sufficient quality for nutritional analysis. Otherwise, returns 'error' if the image lacks quality or does not correspond to a recognizable food item or beverage.",
+                            "enum" => [
+                                "success",
+                                "error"
+                            ]
+                        ],
+                        "status_code" => [
+                            "type" => "string",
+                            "description" => "Indicates the response status code: '200' if the image represents a food item or beverage with sufficient quality for analysis; '422' if the image represents a food item or beverage but lacks sufficient quality; and '400' if the image does not appear to correspond to any food item or beverage.",
+                            "enum" => [
+                                "200",
+                                "422",
+                                "400"
+                            ]
+                        ],
+                        "message" => [
+                            "type" => "string",
+                            "description" => "Provides a message corresponding to the response: 'The food dish was successfully registered' if the image represents a food item or beverage with adequate quality; 'The image quality is too low to generate an accurate nutritional report' if quality is insufficient; and 'The provided image does not appear to correspond to a food dish' if no food item or beverage is identified.",
+                            "enum" => [
+                                "The food dish was successfully registered",
+                                "The image quality is too low to generate an accurate nutritional report",
+                                "The provided image does not appear to correspond to a food dish"
+                            ]
+                        ],
+                        "data" => [
+                            "type" => "object",
+                            "description" => "Contains nutritional information data. This object is required but should remain empty if the status is not 200.",
+                            "properties" => [
+                                "food_name" => [
+                                    "type" => "string",
+                                    "description" => "If the status is 200, this field provides the name of the analyzed food item or beverage."
+                                ],
+                                "ingredients" => [
+                                    "type" => "array",
+                                    "description" => "An array of ingredient objects, each containing the name and weight of individual ingredients present in the analyzed food item or beverage. This array is only populated if the status code is 200.",
+                                    "items" => [
+                                        "type" => "object",
+                                        "description" => "An object representing a single ingredient with its name and estimated weight in grams, only provided if the status code is 200.",
+                                        "properties" => [
+                                            "ingredient_name" => [
+                                                "type" => "string",
+                                                "description" => "The name of the ingredient as identified from the image analysis, included only if the status code is 200."
+                                            ],
+                                            "ingrediente_weight_grams" => [
+                                                "type" => "number",
+                                                "description" => "The estimated weight of the ingredient in grams, based on visual analysis and context from the image, provided only if the status code is 200."
+                                            ]
+                                        ],
+                                        "required" => [
+                                            "ingredient_name",
+                                            "ingrediente_weight_grams"
+                                        ]
+                                    ]
+                                ],
+                                "nutritional_information" => [
+                                    "type" => "object",
+                                    "description" => "If the status is 200, this object provides the estimated nutritional information for the analyzed food item or beverage.",
+                                    "properties" => [
+                                        "calories" => [
+                                            "type" => "integer",
+                                            "description" => "If the status is 200, this field represents the estimated total calorie count. When exact measurements are challenging due to unknowns (e.g., cooking method), provide a close approximation. Total calories are the sum of estimated portions for each ingredient, utilizing contextual cues (such as plating or packaging) to enhance portion accuracy."
+                                        ],
+                                        "carbohydrates" => [
+                                            "type" => "number",
+                                            "description" => "If the status is 200, this field represents the estimated carbohydrate content. Use a close approximation when specifics (e.g., cooking method) are unknown. This is the sum of carbohydrate content across ingredients, approximated based on context (such as plating or surrounding objects)."
+                                        ],
+                                        "proteins" => [
+                                            "type" => "number",
+                                            "description" => "If the status is 200, this field represents the estimated protein content. If precise values are unavailable, approximate based on visible factors. The value is the sum of protein content across ingredients, estimated using visual cues and context."
+                                        ],
+                                        "fats" => [
+                                            "type" => "number",
+                                            "description" => "If the status is 200, this field represents the estimated fat content. Provide a close estimate if exact fat amounts are unavailable. The value is the sum of fat content across ingredients, approximated using context such as plating."
+                                        ],
+                                        "saturated_fats" => [
+                                            "type" => "number",
+                                            "description" => "If the status is 200, this field represents the estimated saturated fat content. Use visual cues to approximate, as needed. This is the sum of saturated fats across ingredients, estimated based on context."
+                                        ],
+                                        "dietary_fiber" => [
+                                            "type" => "number",
+                                            "description" => "If the status is 200, this field represents the estimated dietary fiber content. Provide an approximate value based on visual indicators and contextual cues. This is the sum of dietary fiber content across ingredients, estimated as closely as possible."
+                                        ],
+                                        "sugars" => [
+                                            "type" => "number",
+                                            "description" => "If the status is 200, this field represents the estimated sugar content. Approximations should use visual cues when specifics are unavailable. The value is the sum of sugars across ingredients, estimated based on context."
+                                        ]
+                                    ],
+                                    "required" => [
+                                        "calories",
+                                        "carbohydrates",
+                                        "proteins",
+                                        "fats",
+                                        "saturated_fats",
+                                        "dietary_fiber",
+                                        "sugars"
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ],
+                    "required" => [
+                        "status",
+                        "status_code",
+                        "message",
+                        "data"
+                    ]
+                ]
+            ];
+
+            $prompt = "Analyze the provided image to extract nutritional information. Follow these guidelines closely:
+Image Validation: If the image shows a recognizable food dish, appetizer, beverage, or general food item, proceed with nutritional analysis. If the image does not correspond to any food or beverage, return an error message as specified in the response structure.
+Quality Requirements: If the image quality is too low to allow a reliable nutritional assessment, return an error indicating insufficient image quality.
+Nutritional Information Extraction: Always provide nutritional estimates when analyzing food or beverages, even when details are uncertain. Use the closest possible approximations based on the image, and rely on averages where specific information is missing. For complex dishes or when details such as cooking method are unknown (e.g., if a dish contains chicken but its preparation style is unclear), generalize by using a nutritional average for common cooking methods and select the highest value in each generalization to ensure a comprehensive estimate. Ensure all primary nutritional information, such as calories, carbohydrates, proteins, and fats, is included based on visual cues.
+Ingredient Portion Estimation: Estimate the portion size or weight of each visible ingredient within the dish or beverage to determine its nutritional impact. Base portion sizes on visual references, such as plating, surrounding items, or packaging in the image.
+Always return a nutritional profile for food or beverages, adhering to the response structure provided. If the image does not correspond to a food item or beverage, or if the quality is insufficient, return an error status with the appropriate message and code as defined. GENERATE OUTPUT IN JSON";
+
+            //TEST WITH A IMAGE PROMPT AND TEST HISTORY CONTEXT.
+            $testImagePath = storage_path('app/public/test_image.jpeg');
+
+            if (!file_exists($testImagePath)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Test image not found',
+                ], 404);
+            }
+
+            $uploadFileToGeminiResult = UploadFileToGemini::processFileFromPath($testImagePath);
+            $uri = $uploadFileToGeminiResult->getUri();
+            $mimeType = $uploadFileToGeminiResult->getMimeType();
+
+
+            Log::info('-------------Init chat-----------------');
+            $geminiChat1 = Gemini::newChat();
+
+            Log::info('-------------Change config to use JSON MODE-----------------');
+            $geminiChat1->setGeminiModelConfig(1, 40, 0.95, 8192, 'application/json', $responseSchema);
+
+            Log::info('-------------First prompt-----------------');
+            $response1 = $geminiChat1->newPrompt($prompt, $uri, $mimeType);
+
+            Log::info('-------------DEBUG-----------------');
+            Log::info($response1);
+            Log::info('-------------DEBUG-----------------');
+
+            Log::info('-------------DEBUG-----------------');
+            $response1_decode_to_object = json_decode($response1);
+            Log::info($response1_decode_to_object->status);
+            Log::info('-------------DEBUG-----------------');
+
+            // Log::info('-------------DEBUG-----------------');
+            // $response1_decode_array = json_decode($response1, true);
+            // Log::info($response1_decode_array['recipes'][0]['recipe_name']);
+            // Log::info('-------------DEBUG-----------------');
+
+            // Log::info('-------------DEBUG-----------------');
+            // $response1_decode_object = json_decode($response1);
+            // Log::info($response1_decode_object->recipes[0]->recipe_name);
+            // Log::info('-------------DEBUG-----------------');
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Test successful',
+                'data' => [
+                    'response' => $response1_decode_to_object->status
+                ]
+            ], 200);
+
+
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Test failed',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
 }
