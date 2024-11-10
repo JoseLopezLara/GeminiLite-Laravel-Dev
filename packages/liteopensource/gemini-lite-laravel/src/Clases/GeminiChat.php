@@ -84,7 +84,7 @@ class GeminiChat implements GeminiChatInterface
         return $this->modelConfigJSON;
     }
 
-    public function setGeminiModelConfig($temperature, $topK, $topP, $maxOutputTokens, $responseMimeType, $responseSchema = null)
+    public function setGeminiModelConfig($temperature, $topK, $topP, $maxOutputTokens, $responseMimeType, $responseSchema = null, $currentModel = null)
     {
         $this->modelConfigJSON['temperature'] = $temperature;
         $this->modelConfigJSON['topK'] = $topK;
@@ -104,6 +104,35 @@ class GeminiChat implements GeminiChatInterface
 
         // TODO: Verify if I need to add urlAPI to change between models HERE
         // TODO: Maybe is better desition crear a specific fuction to change model into interface
+    }
+
+    public function changeGeminiModel($geminiModelName){
+        if($geminiModelName == null){
+            Log::error("SYSTEM THREW:: [GeminiChat -> changeGeminiModel]catch Exception in GeminiAPI.php: Gemini model name is null.");
+            return;
+        }
+
+        switch ($geminiModelName) {
+            case self::GEMINI_FLASH_001:
+                $this->currentGeminiModel = $this->urlAPItoGeminiFlash001;
+                break;
+            case self::GEMINI_FLASH_002:
+                $this->currentGeminiModel = $this->urlAPItoGeminiFlash002;
+                break;
+            case self::GEMINI_FLASH_8B:
+                $this->currentGeminiModel = $this->urlAPItoGeminiFlash8B;
+                break;
+            case self::GEMINI_PRO_001:
+                $this->currentGeminiModel = $this->urlAPItoGeminiPro001;
+                break;
+            case self::GEMINI_PRO_002:
+                $this->currentGeminiModel = $this->urlAPItoGeminiPro002;
+                break;
+
+            default:
+                Log::error("SYSTEM THREW:: [GeminiChat -> changeGeminiModel]catch Exception in GeminiAPI.php: Gemini model name not found.");
+                return;
+        }
     }
 
     //------------------------ OTHER FUNCTIONS SECTION -------------------------
@@ -222,19 +251,17 @@ class GeminiChat implements GeminiChatInterface
         $this->modelConfigJSON['maxOutputTokens'] = 8192;
         $this->modelConfigJSON['responseMimeType'] = "text/plain";
 
-        $this->currentGeminiModel = $this->urlAPItoGeminiFlash;
+        $this->currentGeminiModel = $this->urlAPItoGeminiFlash001;
     }
 
     private function addAPIKeyToGeminiModels($secretAPIKey){
-        $this->urlAPItoGeminiFlash .= $secretAPIKey;
-        $this->urlAPItoGeminiPro .= $secretAPIKey;
+        $this->urlAPItoGeminiFlash001 .= $secretAPIKey;
+        $this->urlAPItoGeminiFlash002 .= $secretAPIKey;
+        $this->urlAPItoGeminiFlash8B .= $secretAPIKey;
+        $this->urlAPItoGeminiPro001 .= $secretAPIKey;
+        $this->urlAPItoGeminiPro002 .= $secretAPIKey;
     }
 
-    // ! TODO: Check if I need this to updateGeminiModelConfig
-    // public function updateGeminiModelConfig($newGeminiModelConfig)
-    // {
-    //     $this->geminiModelConfig = array_merge($this->geminiModelConfig, $newGeminiModelConfig);
-    // }
 
 
 }
