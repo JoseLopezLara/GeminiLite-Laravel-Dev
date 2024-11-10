@@ -105,7 +105,8 @@ class GeminiChat implements GeminiChatInterface
         // TODO: Verify if I need to add urlAPI to change between models HERE
         // TODO: Maybe is better desition crear a specific fuction to change model into interface
     }
-
+    // ! NO URGENT, BUT... WE HAVE TO ADD VALIDATION BECAUSE SOME MODEL HAVE
+    // ! ... LIMIT OF TOP K AND TOP P VALUES
     public function changeGeminiModel($geminiModelName){
         if($geminiModelName == null){
             Log::error("SYSTEM THREW:: [GeminiChat -> changeGeminiModel]catch Exception in GeminiAPI.php: Gemini model name is null.");
@@ -115,18 +116,23 @@ class GeminiChat implements GeminiChatInterface
         switch ($geminiModelName) {
             case self::GEMINI_FLASH_001:
                 $this->currentGeminiModel = $this->urlAPItoGeminiFlash001;
+                Log::info("[ IN GeminiChat ->  changeGeminiModel: ]. Gemini model (GEMINI_FLASH_001) changed current model config: ", [$this->currentGeminiModel]);
                 break;
             case self::GEMINI_FLASH_002:
                 $this->currentGeminiModel = $this->urlAPItoGeminiFlash002;
+                Log::info("[ IN GeminiChat ->  changeGeminiModel: ]. Gemini model (GEMINI_FLASH_002) changed current model config: ", [$this->currentGeminiModel]);
                 break;
             case self::GEMINI_FLASH_8B:
                 $this->currentGeminiModel = $this->urlAPItoGeminiFlash8B;
+                Log::info("[ IN GeminiChat ->  changeGeminiModel: ]. Gemini model (GEMINI_FLASH_8B) changed current model config: ", [$this->currentGeminiModel]);
                 break;
             case self::GEMINI_PRO_001:
                 $this->currentGeminiModel = $this->urlAPItoGeminiPro001;
+                Log::info("[ IN GeminiChat ->  changeGeminiModel: ]. Gemini model (GEMINI_PRO_001) changed current model config: ", [$this->currentGeminiModel]);
                 break;
             case self::GEMINI_PRO_002:
                 $this->currentGeminiModel = $this->urlAPItoGeminiPro002;
+                Log::info("[ IN GeminiChat ->  changeGeminiModel: ]. Gemini model (GEMINI_PRO_002) changed current model config: ", [$this->currentGeminiModel]);
                 break;
 
             default:
@@ -194,6 +200,7 @@ class GeminiChat implements GeminiChatInterface
             'json' => $this->bodyJSON
         ]);
 
+        // ! TODO: NOT URGENT BUT... ADD ERROR HANDLING FOR BAD RESPONSES, OTHERWISE RETURN HTML ERROR INSTEAD JSON ERROR
         $responseData = json_decode($response->getBody()->getContents(), true);
 
         // Get text message, update chat history and return response
@@ -242,11 +249,10 @@ class GeminiChat implements GeminiChatInterface
         $this->totalTokenHistoryChatCount += $this->totalTokenCount;
     }
 
-
     private function initDefaultConfigGeminiAPIJSON()
     {
         $this->modelConfigJSON['temperature'] = 1;
-        $this->modelConfigJSON['topK'] = 64;
+        $this->modelConfigJSON['topK'] = 40;
         $this->modelConfigJSON['topP'] = 0.95;
         $this->modelConfigJSON['maxOutputTokens'] = 8192;
         $this->modelConfigJSON['responseMimeType'] = "text/plain";

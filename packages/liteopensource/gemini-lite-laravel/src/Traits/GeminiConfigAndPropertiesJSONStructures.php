@@ -13,7 +13,7 @@ trait GeminiConfigAndPropertiesJSONStructures
     // Model Config structure that represente the JSON config and has default config
     private $modelConfigJSON = [
         "temperature" => 1,
-        "topK" => 64,
+        "topK" => 40,
         "topP" => 0.95,
         "maxOutputTokens" => 8192,
         "responseMimeType" => "text/plain"

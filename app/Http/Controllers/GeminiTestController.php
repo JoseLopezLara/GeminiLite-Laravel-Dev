@@ -388,7 +388,7 @@ Ingredient Portion Estimation: Estimate the portion size or weight of each visib
 Always return a nutritional profile for food or beverages, adhering to the response structure provided. If the image does not correspond to a food item or beverage, or if the quality is insufficient, return an error status with the appropriate message and code as defined. GENERATE OUTPUT IN JSON";
 
             //TEST WITH A IMAGE PROMPT AND TEST HISTORY CONTEXT.
-            $testImagePath = storage_path('app/public/test_image.jpeg');
+            $testImagePath = storage_path('app/public/test_image_food.jpeg');
 
             if (!file_exists($testImagePath)) {
                 return response()->json([
