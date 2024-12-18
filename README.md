@@ -27,7 +27,7 @@ Este paso es importante para que se genere el vendor interno del paquete
 
 ### Para publicar todos los archivos (Migraciones, seeder de limites y archivo de configuración)
 
-php artisan vendor:publish --provider=LiteOpenSource\GeminiLiteLaravel\Src\Providers\GeminiLiteServiceProvider
+php artisan vendor:publish --provider="LiteOpenSource\GeminiLiteLaravel\Src\Providers\GeminiLiteServiceProvider"
 
 ### Para publicar archivos por separado
 
@@ -41,7 +41,13 @@ php artisan vendor:publish --tag="geminilite-limit-tokes"
 
 #### Archivo de configuración
 
+🔴Aún esta comando no funciona, para publicar las migraciones se deb publicar desde el provedor que publica todos los archivos🔴
 php artisan vendor:publish --tag="migrations"
+
+#### API Key
+
+Debes generar un clave de api y añadira en el .env
+GEMINILITE_SECRET_API_KEY="YOUR_API_KEY"
 
 ## Características
 
