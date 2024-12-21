@@ -10,7 +10,7 @@ return new class extends Migration
     {
          Schema::create('gemini_lite_usage', function (Blueprint $table) {
             $table->id(); // id como PK
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->boolean('can_make_requests');
             $table->timestamp('current_day_tracking_start')->nullable();
             $table->timestamp('current_month_tracking_start')->nullable();
@@ -25,7 +25,7 @@ return new class extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('geminilite_usage');
+        Schema::dropIfExists('gemini_lite_usage');
     }
 };
 

@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
 use LiteOpenSource\GeminiLiteLaravel\Src\Facades\Gemini;
+use LiteOpenSource\GeminiLiteLaravel\Src\Facades\GeminiTokenCount;
 use LiteOpenSource\GeminiLiteLaravel\Src\Facades\UploadFileToGemini;
 use Log;
 use Symfony\Component\HttpKernel\Log\Logger;
@@ -15,6 +18,28 @@ class GeminiTestController extends Controller
     public function testGemini(){
        return response()->json([
         'message' => 'This is a test controller for Gemini $textPrompt']);
+    }
+
+    public function testLimitTokens(){
+
+        $tokens = GeminiTokenCount::coutTextTokens("Hola");
+        $gemini = Gemini::newChat();
+        $user = user::find(1);
+        if (!$user->canMakeRequestToGemini()){
+            return response()->json([
+                'status' =>  'error',
+                'message' =>  'The user cannot make request'
+            ],403);
+        }
+        $user->updateUsageTracking($tokens);
+        //$response = $gemini->newPrompt("Hola gemini mi nombre es ".$user->name);
+        $user->storeGeminiRequest("", $tokens, true, ['response' => 'random'],['response' => 'random']);
+        return response()->json([
+            'user' => $user,
+            'isActive' => $user->isActiveInGemini(),
+            'can make request' => $user->canMakeRequestToGemini(),
+            'tokenNumber' => $tokens
+        ]);
     }
 
     public function testGeminiPrompts()

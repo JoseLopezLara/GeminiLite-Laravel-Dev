@@ -22,7 +22,7 @@ return new class extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('geminilite_roles');
+        Schema::dropIfExists('gemini_lite_roles');
     }
 };
 

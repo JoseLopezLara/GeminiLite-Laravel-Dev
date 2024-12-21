@@ -18,6 +18,11 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
+            'password' => '1234'
+        ]);
+
+        $this->call([
+            GeminiLiteLimitTokensRulesSeeder::class
         ]);
     }
 }

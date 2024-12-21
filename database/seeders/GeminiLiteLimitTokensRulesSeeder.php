@@ -1,6 +1,6 @@
 <?php
 
-namespace LiteOpenSource\GeminiLiteLaravel\Src\Database\Seeders;
+namespace Database\Seeders;
 
 
 use Illuminate\Database\Seeder;

@@ -4,8 +4,10 @@ namespace LiteOpenSource\GeminiLiteLaravel\Src\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use LiteOpenSource\GeminiLiteLaravel\Src\Contracts\GeminiServiceInterface;
+use LiteOpenSource\GeminiLiteLaravel\Src\Contracts\GeminiTokenCountInterface;
 use LiteOpenSource\GeminiLiteLaravel\Src\Contracts\UploadFileToGeminiServiceInterface;
 use LiteOpenSource\GeminiLiteLaravel\Src\Services\GeminiService;
+use LiteOpenSource\GeminiLiteLaravel\Src\Services\GeminiTokenCountService;
 use LiteOpenSource\GeminiLiteLaravel\Src\Services\UploadFileToGeminiService;
 
 class GeminiLiteServiceProvider extends ServiceProvider
@@ -28,6 +30,12 @@ class GeminiLiteServiceProvider extends ServiceProvider
         $this->app->bind(GeminiServiceInterface::class, function ($app){
             $geminiLiteSecretApiKey = config('geminilite.geminilite_secret_api_key');
             return new GeminiService($geminiLiteSecretApiKey );
+        });
+
+        // REGISTER: GeminiTokeCountService to service container
+        $this->app->bind(GeminiTokenCountInterface::class, function ($app){
+            $geminiLiteSecretApiKey = config('geminilite.geminilite_secret_api_key');
+            return new GeminiTokenCountService($geminiLiteSecretApiKey );
         });
     }
 
