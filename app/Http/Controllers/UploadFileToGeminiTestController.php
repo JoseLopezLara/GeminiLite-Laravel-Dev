@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use LiteOpenSource\GeminiLiteLaravel\Src\Facades\UploadFileToGemini;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 class UploadFileToGeminiTestController extends Controller
 {
@@ -14,7 +16,7 @@ class UploadFileToGeminiTestController extends Controller
         'message' => 'This is a test controller for uploading files to Gemini']);
     }
 
-    public function getUploadFileToGeminiTest()
+    public function testProcessFileFromPath()
     {
         try {
             // Use a test image path en storage/app/public/test_image.jpeg
@@ -32,6 +34,51 @@ class UploadFileToGeminiTestController extends Controller
             $uri = $uploadFileToGeminiResult->getUri();
             $mimeType = $uploadFileToGeminiResult->getMimeType();
 
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Test successful',
+                'data' => [
+                    'uri' => $uri,
+                    'mimeType' => $mimeType
+                ]
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Test failed',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function testProcessFileFromUpload()
+    {
+        try {
+            // Ruta del archivo de prueba
+            $testFilePath = storage_path('app/public/test_pdf.pdf');
+
+            if (!file_exists($testFilePath)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Test file not found',
+                ], 404);
+            }
+
+            // Crear un UploadedFile simulado
+            $uploadedFile = new UploadedFile(
+                $testFilePath,
+                'test_pdf.pdf',
+                'application/pdf',
+                null,
+                true
+            );
+
+            // Usar Facades\UploadFileToGemini para probar processFileFromUpload
+            $uploadFileToGeminiResult = UploadFileToGemini::processFileFromUpload($uploadedFile);
+            $uri = $uploadFileToGeminiResult->getUri();
+            $mimeType = $uploadFileToGeminiResult->getMimeType();
 
             return response()->json([
                 'success' => true,

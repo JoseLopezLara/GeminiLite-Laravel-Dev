@@ -9,7 +9,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 //Upload File to Gemini
-Route::get('/uploadFileToGeminiTest', [UploadFileToGeminiTestController::class, 'getUploadFileToGeminiTest']);
+Route::get('/testProcessFileFromPath', [UploadFileToGeminiTestController::class, 'testProcessFileFromPath']);
+Route::get('/testProcessFileFromUpload', [UploadFileToGeminiTestController::class, 'testProcessFileFromUpload']);
 Route::get('/test', [UploadFileToGeminiTestController::class, 'test']);
 
 //Gemini
