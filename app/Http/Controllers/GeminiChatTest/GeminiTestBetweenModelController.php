@@ -4,7 +4,7 @@ namespace App\Http\Controllers\GeminiChatTest;
 
 use App\Http\Controllers\Controller;
 use LiteOpenSource\GeminiLiteLaravel\Src\Facades\Gemini;
-use Log;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 
 class GeminiTestBetweenModelController extends Controller
@@ -23,7 +23,7 @@ class GeminiTestBetweenModelController extends Controller
             Log::info('-------------Init chat-----------------');
             $geminiChat2 = Gemini::newChat();
             Log::info('-------------Change config-----------------');
-            $geminiChat2->changeGeminiModel("gemini-1.5-pro-002");
+            $geminiChat2->changeGeminiModel("gemini-1.5-pro");
             Log::info('-------------First prompt-----------------');
             $response2 = $geminiChat2->newPrompt("Tres amigos —Ana, Bruno y Carlos— están sentados en una fila. Ana está a la izquierda de Bruno y a la derecha de Carlos. Si Carlos no está en el extremo derecho, ¿quién está en el medio y quién está en cada extremo?");
 

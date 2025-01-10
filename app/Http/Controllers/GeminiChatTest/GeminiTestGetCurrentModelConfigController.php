@@ -4,7 +4,7 @@ namespace App\Http\Controllers\GeminiChatTest;
 
 use App\Http\Controllers\Controller;
 use LiteOpenSource\GeminiLiteLaravel\Src\Facades\Gemini;
-use Log;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 
 class GeminiTestGetCurrentModelConfigController extends Controller
