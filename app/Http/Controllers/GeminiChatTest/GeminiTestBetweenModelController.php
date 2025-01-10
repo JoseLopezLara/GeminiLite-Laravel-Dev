@@ -27,6 +27,8 @@ class GeminiTestBetweenModelController extends Controller
             Log::info('-------------First prompt-----------------');
             $response2 = $geminiChat2->newPrompt("Tres amigos —Ana, Bruno y Carlos— están sentados en una fila. Ana está a la izquierda de Bruno y a la derecha de Carlos. Si Carlos no está en el extremo derecho, ¿quién está en el medio y quién está en cada extremo?");
 
+            // Gemini::newPromopts();
+
             return response()->json([
                 'success' => true,
                 'message' => 'Test successful',

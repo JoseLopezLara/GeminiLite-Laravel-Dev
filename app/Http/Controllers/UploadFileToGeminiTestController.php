@@ -34,7 +34,6 @@ class UploadFileToGeminiTestController extends Controller
             $uri = $uploadFileToGeminiResult->getUri();
             $mimeType = $uploadFileToGeminiResult->getMimeType();
 
-
             return response()->json([
                 'success' => true,
                 'message' => 'Test successful',
