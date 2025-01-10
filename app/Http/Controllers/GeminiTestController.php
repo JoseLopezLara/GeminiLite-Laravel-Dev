@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use LiteOpenSource\GeminiLiteLaravel\Src\Facades\Gemini;
 use LiteOpenSource\GeminiLiteLaravel\Src\Facades\UploadFileToGemini;
-use Log;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpKernel\Log\Logger;
 
 class GeminiTestController extends Controller

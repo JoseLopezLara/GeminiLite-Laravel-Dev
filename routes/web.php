@@ -3,6 +3,7 @@
 use App\Http\Controllers\GeminiChatTest\GeminiTestBetweenModelController;
 use App\Http\Controllers\GeminiChatTest\GeminiTestGetCurrentModelConfigController;
 use App\Http\Controllers\GeminiTestController;
+use App\Http\Controllers\GeminiTestNewModelsController;
 use App\Http\Controllers\UploadFileToGeminiTestController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,3 +25,8 @@ Route::get('/testGemini', [GeminiTestController::class, 'testGemini']);
 Route::get('/testGeminiPromptNutritionSumary', [GeminiTestController::class, 'testGeminiPromptNutritionSumary']);
 Route::get('/testGetCurrentModelConfig', [GeminiTestGetCurrentModelConfigController::class, 'testGetCurrentModelConfig']);
 
+// New Gemini Models Test
+Route::get('/testGeminiFlashV2Exp', [GeminiTestNewModelsController::class, 'testGeminiFlashV2Exp']);
+Route::get('/testGeminiExp1206', [GeminiTestNewModelsController::class, 'testGeminiExp1206']);
+Route::get('/testLearnLMProExp', [GeminiTestNewModelsController::class, 'testLearnLMProExp']);
+Route::get('/testGeminiFlashV2ThinkingExp', [GeminiTestNewModelsController::class, 'testGeminiFlashV2ThinkingExp']);

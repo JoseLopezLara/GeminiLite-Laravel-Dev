@@ -130,6 +130,14 @@ class GeminiChat implements GeminiChatInterface
                 $this->currentGeminiModel = $this->urlAPItoGeminiFlashV2Exp;
                 Log::info("[ IN GeminiChat ->  changeGeminiModel: ]. Gemini model (GEMINI_FLASH_V2_0_EXP) changed current model config: ", [$this->currentGeminiModel]);
                 break;
+            case self::GEMINI_EXP_1206:
+                $this->currentGeminiModel = $this->urlAPItoGeminiExp1206;
+                Log::info("[ IN GeminiChat ->  changeGeminiModel: ]. Gemini model (GEMINI_FLASH_V2_0_EXP) changed current model config: ", [$this->currentGeminiModel]);
+                break;
+            case self::LEARNLM_1_5_PRO_EXP:
+                $this->currentGeminiModel = $this->urlAPItoLearnLMProExp;
+                Log::info("[ IN GeminiChat ->  changeGeminiModel: ]. Gemini model (GEMINI_FLASH_V2_0_EXP) changed current model config: ", [$this->currentGeminiModel]);
+                break;
             case self::GEMINI_FLASH_V2_0_THINKING_EXP:
                 $this->currentGeminiModel = $this->urlAPItoGeminiFlashV2ThinkingExp;
                 Log::info("[ IN GeminiChat ->  changeGeminiModel: ]. Gemini model (GEMINI_FLASH_V2_0_THINKING_EXP) changed current model config: ", [$this->currentGeminiModel]);
@@ -273,6 +281,8 @@ class GeminiChat implements GeminiChatInterface
         $this->urlAPItoGeminiFlash002 .= $secretAPIKey;
         $this->urlAPItoGeminiFlash8B .= $secretAPIKey;
         $this->urlAPItoGeminiFlashV2Exp .= $secretAPIKey;
+        $this->urlAPItoGeminiExp1206 .= $secretAPIKey;
+        $this->urlAPItoLearnLMProExp .= $secretAPIKey;
         $this->urlAPItoGeminiFlashV2ThinkingExp .= $secretAPIKey;
         $this->urlAPItoGeminiPro001 .= $secretAPIKey;
         $this->urlAPItoGeminiPro002 .= $secretAPIKey;
