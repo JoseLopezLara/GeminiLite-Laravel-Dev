@@ -89,9 +89,9 @@ class GeminiChat implements GeminiChatInterface
 
     public function setGeminiModelConfig($temperature, $topK, $topP, $maxOutputTokens, $responseMimeType, $responseSchema = null, $currentModel = null)
     {
-        $modelName = $currentModel ?? $this->getModelNameFromUrl($this->currentGeminiModel);
+        // Use the current model constant instead of parsing URL
+        $modelName = $currentModel ?? $this->getCurrentModelConstant();
         
-        // Validate using model name instead of URL
         $this->validateTopK($modelName, $topK);
         Log::info("[ IN GeminiChat ->  setGeminiModelConfig: ]. topK validated: ", [$topK]);
         $this->validateTopP($modelName, $topP);
@@ -300,20 +300,27 @@ class GeminiChat implements GeminiChatInterface
         //$this->urlAPItoGeminiPro002 .= $secretAPIKey;
     }
 
-
-    protected function getModelNameFromUrl(string $url): string
+    protected function getCurrentModelConstant(): string
     {
-        $urlToModelMap = [
-            $this->urlAPItoGeminiFlash001 => 'gemini-1.5-flash',
-            $this->urlAPItoGeminiPro001 => 'gemini-1.5-pro',
-            $this->urlAPItoGeminiFlash8B => 'gemini-1.5-flash-8b',
-            $this->urlAPItoGeminiFlashV2Exp => 'gemini-1.5-flash-v2-exp',
-            $this->urlAPItoGeminiExp1206 => 'gemini-1.5-exp-1206',
-            $this->urlAPItoLearnLMProExp => 'learnlm-1.5-pro-exp',
-            $this->urlAPItoGeminiFlashV2ThinkingExp => 'gemini-1.5-flash-v2-thinking-exp',
-        ];
-        
-        return $urlToModelMap[$url] ?? throw new \InvalidArgumentException("Unknown model URL: $url");
+        switch($this->currentGeminiModel) {
+            case $this->urlAPItoGeminiFlash001:
+                return self::GEMINI_FLASH_001;
+            case $this->urlAPItoGeminiPro001:
+                return self::GEMINI_PRO_001;
+            case $this->urlAPItoGeminiFlash8B:
+                return self::GEMINI_FLASH_8B;
+            case $this->urlAPItoGeminiFlashV2Exp:
+                return self::GEMINI_FLASH_V2_0_EXP;
+            case $this->urlAPItoGeminiExp1206:
+                return self::GEMINI_EXP_1206;
+            case $this->urlAPItoLearnLMProExp:
+                return self::LEARNLM_1_5_PRO_EXP;
+            case $this->urlAPItoGeminiFlashV2ThinkingExp:
+                return self::GEMINI_FLASH_V2_0_THINKING_EXP;
+            // Add other cases as needed
+            default:
+                throw new \InvalidArgumentException("Unknown model URL: {$this->currentGeminiModel}");
+        }
     }
 
 
