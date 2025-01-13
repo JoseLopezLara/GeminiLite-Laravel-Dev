@@ -27,17 +27,17 @@ trait GeminiModelValidations
             return; // Si topK es nulo, no hay validación que hacer
         }
 
-        if ($model === 'gemini-1.5-pro') {
-            throw new \InvalidArgumentException("El modelo {$model} no soporta el parámetro topK.");
-        }
-        
-        if (isset($modelRanges[$model])) {
-            $min = $modelRanges[$model]['topK'][0];
-            $max = $modelRanges[$model]['topK'][1];
-            if ($topK < $min || $topK > $max) {
-                throw new \InvalidArgumentException("El valor de topK para el modelo {$model} debe estar entre {$min} y {$max}.");
-            }
-        }
+if ($model === 'gemini-1.5-pro') {
+    throw new \InvalidArgumentException("The model {$model} does not support the topK parameter.");
+}
+
+if (isset($modelRanges[$model])) {
+    $min = $modelRanges[$model]['topK'][0];
+    $max = $modelRanges[$model]['topK'][1];
+    if ($topK < $min || $topK > $max) {
+        throw new \InvalidArgumentException("The topK value for the model {$model} must be between {$min} and {$max}.");
+    }
+}
     }
 
     /**
@@ -68,7 +68,7 @@ trait GeminiModelValidations
             $min = $modelRanges[$model]['topP'][0];
             $max = $modelRanges[$model]['topP'][1];
             if ($topP < $min || $topP > $max) {
-                 throw new \InvalidArgumentException("El valor de topP para el modelo {$model} debe estar entre {$min} y {$max}.");
+                 throw new \InvalidArgumentException("The topP value for the model {$model} must be between {$min} and {$max}.");
             }
         }
     }
