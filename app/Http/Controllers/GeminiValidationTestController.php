@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Log;
 
 class GeminiValidationTestController extends Controller
 {
-    use \Liteopensource\GeminiLiteLaravel\Src\Traits\GeminiModelValidations;
 
     protected function validateModelData(array $data, array $rules)
     {
@@ -89,11 +88,6 @@ class GeminiValidationTestController extends Controller
                 Log::info('-------------Change config-----------------');
                 try {
                     $geminiChat->changeGeminiModel($model);
-                    // Only validate topK if the model supports it
-                    if ($model !== 'gemini-1.5-pro') {
-                        $this->validateTopK($model, 40);
-                    }
-                    $this->validateTopP($model, 0.95);
                     foreach ($testCases as $key => $data) {
                         try {
                             $rules = [
