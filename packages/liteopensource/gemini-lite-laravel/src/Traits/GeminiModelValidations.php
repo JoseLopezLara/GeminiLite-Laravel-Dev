@@ -27,15 +27,16 @@ trait GeminiModelValidations
             return; // Si topK es nulo, no hay validación que hacer
         }
 
+        if ($model === 'gemini-1.5-pro') {
+            throw new \InvalidArgumentException("El modelo {$model} no soporta el parámetro topK.");
+        }
+        
         if (isset($modelRanges[$model])) {
             $min = $modelRanges[$model]['topK'][0];
             $max = $modelRanges[$model]['topK'][1];
             if ($topK < $min || $topK > $max) {
                 throw new \InvalidArgumentException("El valor de topK para el modelo {$model} debe estar entre {$min} y {$max}.");
             }
-        } else {
-            // Si el modelo no está en $modelRanges, significa que no soporta topK
-            throw new \InvalidArgumentException("El modelo {$model} no soporta el parámetro topK.");
         }
     }
 

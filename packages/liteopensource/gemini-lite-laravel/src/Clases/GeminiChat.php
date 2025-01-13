@@ -89,16 +89,19 @@ class GeminiChat implements GeminiChatInterface
 
     public function setGeminiModelConfig($temperature, $topK, $topP, $maxOutputTokens, $responseMimeType, $responseSchema = null, $currentModel = null)
     {
+        // Validar topK y topP
+        $this->validateTopK($currentModel ?? $this->currentGeminiModel, $topK);
+        Log::info("[ IN GeminiChat ->  setGeminiModelConfig: ]. topK validated: ", [$topK]);
+        $this->validateTopP($currentModel ?? $this->currentGeminiModel, $topP);
+        Log::info("[ IN GeminiChat ->  setGeminiModelConfig: ]. topP validated: ", [$topP]);
+
         $this->modelConfigJSON['temperature'] = $temperature;
         $this->modelConfigJSON['topK'] = $topK;
         $this->modelConfigJSON['topP'] = $topP;
         $this->modelConfigJSON['maxOutputTokens'] = $maxOutputTokens;
         $this->modelConfigJSON['responseMimeType'] = $responseMimeType;
 
-        // Validar topK y topP
-        $this->validateTopK($currentModel ?? $this->currentGeminiModel, $topK);
-        $this->validateTopP($currentModel ?? $this->currentGeminiModel, $topP);
-
+        
         //Add response schema if provided. When is printed tha it mean that user is using JSON MODE
         if($responseSchema != null){
             $this->responseSchema = $responseSchema;

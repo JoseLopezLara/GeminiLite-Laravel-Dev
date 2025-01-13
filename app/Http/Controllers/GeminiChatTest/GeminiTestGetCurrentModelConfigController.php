@@ -15,8 +15,10 @@ class GeminiTestGetCurrentModelConfigController extends Controller
             Log::info('-------------Init chat-----------------');
             $geminiChat = Gemini::newChat();
             Log::info('-------------Change config-----------------');
+            $geminiChat->changeGeminiModel('gemini-1.5-flash');
             $initialModelConfig = $geminiChat->getGeminiModelConfig();
-            $geminiChat->setGeminiModelConfig(2, 64, 1, 8192, 'text/plain');
+            $currentModel = $geminiChat->getGeminiModelConfig()['urlAPI'] ?? null;
+            $geminiChat->setGeminiModelConfig(2, 64, 1, 8192, 'text/plain', null, $currentModel);
             Log::info('-------------Afer change config-----------------');
             $finalModelConfig = $geminiChat->getGeminiModelConfig();
 

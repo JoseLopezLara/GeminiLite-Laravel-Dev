@@ -21,8 +21,13 @@ class GeminiValidationTestController extends Controller
     {
         try {
             $models = [
-                'gemini-2.0-flash-exp',
-                'gemini-1.5-pro-latest',
+                //'gemini-2.0-flash-exp',
+                //'gemini-exp-1206',
+                //'gemini-2.0-flash-thinking-exp-1219',
+                //'learnlm-1.5-pro-experimental',
+                'gemini-1.5-pro',
+                //'gemini-1.5-flash',
+                //'gemini-1.5-flash-8b'
             ];
     
             $testCases = [
@@ -67,6 +72,12 @@ class GeminiValidationTestController extends Controller
                     'top_p' => null,
                     'top_k' => 20,
                 ],
+                'no_top_k' => [
+                    'prompt' => 'Test prompt',
+                    'max_tokens' => 100,
+                    'temperature' => 0.5,
+                    'top_p' => 0.8,
+                ],
             ];
     
             $results = [];
@@ -78,49 +89,52 @@ class GeminiValidationTestController extends Controller
                 Log::info('-------------Change config-----------------');
                 try {
                     $geminiChat->changeGeminiModel($model);
-                   // Validar topK y topP
-                   $this->validateTopK($model, 40);
-                   $this->validateTopP($model, 0.95);
-                   foreach ($testCases as $key => $data) {
-                    try {
-                        $rules = [
-                            'prompt' => 'required|string',
-                            'max_tokens' => 'nullable|integer|min:1',
-                            'temperature' => 'nullable|numeric|between:0,1',
-                            'top_p' => 'nullable|numeric|between:0,1',
-                            'top_k' => 'nullable|integer|min:1',
-                        ];
-                        $validatedData = $this->validateModelData($data, $rules);
-                        if ($validatedData->fails()) {
-                            $modelResults[$key] = ['status' => 'failed', 'errors' => $validatedData->errors()];
-                        } else {
-                            try {
-                                $geminiChat->setGeminiModelConfig(
-                                    $data['temperature'] ?? 1,
-                                    $data['top_k'] ?? 40,
-                                    $data['top_p'] ?? 0.95,
-                                    $data['max_tokens'] ?? 8192,
-                                    'text/plain',
-                                    null,
-                                    $model
-                                );
-                                $response = $geminiChat->newPrompt($data['prompt'] ?? 'test');
-                                $modelResults[$key] = ['status' => 'success', 'message' => 'Validations passed', 'response' => $response];
-                            } catch (\Exception $e) {
-                                $modelResults[$key] = ['status' => 'failed', 'error' => $e->getMessage()];
-                            }
-                        }
-                    } catch (\InvalidArgumentException $e) {
-                        $modelResults[$key] = ['status' => 'failed', 'error' => $e->getMessage()];
+                    // Only validate topK if the model supports it
+                    if ($model !== 'gemini-1.5-pro') {
+                        $this->validateTopK($model, 40);
                     }
-                }
+                    $this->validateTopP($model, 0.95);
+                    foreach ($testCases as $key => $data) {
+                        try {
+                            $rules = [
+                                'prompt' => 'required|string',
+                                'max_tokens' => 'nullable|integer|min:1',
+                                'temperature' => 'nullable|numeric|between:0,1',
+                                'top_p' => 'nullable|numeric|between:0,1',
+                                'top_k' => 'nullable|integer|min:1',
+                            ];
+                            $validatedData = $this->validateModelData($data, $rules);
+                            if ($validatedData->fails()) {
+                                $modelResults[$key] = ['status' => 'failed', 'errors' => $validatedData->errors()];
+                            } else {
+                                try {
+                                    $geminiChat->setGeminiModelConfig(
+                                        $data['temperature'] ?? 1,
+                                        (in_array($key, ['no_top_k', 'null_top_k']) ? null : $data['top_k'] ?? 40) ,
+                                        $data['top_p'] ?? 0.95,
+                                        $data['max_tokens'] ?? 8192,
+                                        'text/plain',
+                                        null,
+                                        $model
+                                    );
+                                    $response = $geminiChat->newPrompt($data['prompt'] ?? 'test');
+                                    $modelResults[$key] = ['status' => 'success', 'message' => 'Validations passed', 'response' => $response];
+                                } catch (\Exception $e) {
+                                    $modelResults[$key] = ['status' => 'failed', 'error' => $e->getMessage()];
+                                }
+                            }
+                        } catch (\InvalidArgumentException $e) {
+                            $modelResults[$key] = ['status' => 'failed', 'error' => $e->getMessage()];
+                        }
+                    }
                 } catch (\InvalidArgumentException $e) {
                     $modelResults['invalid_top_k'] = ['status' => 'failed', 'error' => $e->getMessage()];
                     $modelResults['null_top_k'] = ['status' => 'failed', 'error' => $e->getMessage()];
-                     $modelResults['valid_values'] = ['status' => 'failed', 'error' => $e->getMessage()];
+                    $modelResults['valid_values'] = ['status' => 'failed', 'error' => $e->getMessage()];
                     $modelResults['null_top_p'] =  ['status' => 'failed', 'error' => $e->getMessage()];
-                     $modelResults['invalid_top_p'] =  ['status' => 'failed', 'errors' => []];
-                   $modelResults['missing_required_field'] = ['status' => 'failed', 'errors' => []];
+                    $modelResults['no_top_k'] = ['status' => 'failed', 'errors' =>$e->getMessage()];
+                    $modelResults['invalid_top_p'] =  ['status' => 'failed', 'errors' =>$e->getMessage()];
+                    $modelResults['missing_required_field'] = ['status' => 'failed', 'errors' =>$e->getMessage()];
                 }
 
                 $results[$model] = $modelResults;
