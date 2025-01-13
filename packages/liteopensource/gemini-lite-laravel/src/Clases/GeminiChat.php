@@ -89,10 +89,12 @@ class GeminiChat implements GeminiChatInterface
 
     public function setGeminiModelConfig($temperature, $topK, $topP, $maxOutputTokens, $responseMimeType, $responseSchema = null, $currentModel = null)
     {
-        // Validar topK y topP
-        $this->validateTopK($currentModel ?? $this->currentGeminiModel, $topK);
+        $modelName = $currentModel ?? $this->getModelNameFromUrl($this->currentGeminiModel);
+        
+        // Validate using model name instead of URL
+        $this->validateTopK($modelName, $topK);
         Log::info("[ IN GeminiChat ->  setGeminiModelConfig: ]. topK validated: ", [$topK]);
-        $this->validateTopP($currentModel ?? $this->currentGeminiModel, $topP);
+        $this->validateTopP($modelName, $topP);
         Log::info("[ IN GeminiChat ->  setGeminiModelConfig: ]. topP validated: ", [$topP]);
 
         $this->modelConfigJSON['temperature'] = $temperature;
@@ -298,6 +300,21 @@ class GeminiChat implements GeminiChatInterface
         //$this->urlAPItoGeminiPro002 .= $secretAPIKey;
     }
 
+
+    protected function getModelNameFromUrl(string $url): string
+    {
+        $urlToModelMap = [
+            $this->urlAPItoGeminiFlash001 => 'gemini-1.5-flash',
+            $this->urlAPItoGeminiPro001 => 'gemini-1.5-pro',
+            $this->urlAPItoGeminiFlash8B => 'gemini-1.5-flash-8b',
+            $this->urlAPItoGeminiFlashV2Exp => 'gemini-1.5-flash-v2-exp',
+            $this->urlAPItoGeminiExp1206 => 'gemini-1.5-exp-1206',
+            $this->urlAPItoLearnLMProExp => 'learnlm-1.5-pro-exp',
+            $this->urlAPItoGeminiFlashV2ThinkingExp => 'gemini-1.5-flash-v2-thinking-exp',
+        ];
+        
+        return $urlToModelMap[$url] ?? throw new \InvalidArgumentException("Unknown model URL: $url");
+    }
 
 
 }
