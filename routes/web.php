@@ -30,3 +30,6 @@ Route::get('/testGeminiFlashV2Exp', [GeminiTestNewModelsController::class, 'test
 Route::get('/testGeminiExp1206', [GeminiTestNewModelsController::class, 'testGeminiExp1206']);
 Route::get('/testLearnLMProExp', [GeminiTestNewModelsController::class, 'testLearnLMProExp']);
 Route::get('/testGeminiFlashV2ThinkingExp', [GeminiTestNewModelsController::class, 'testGeminiFlashV2ThinkingExp']);
+
+// Gemini Validations Test
+Route::get('/api/gemini/validation-test', [\App\Http\Controllers\GeminiValidationTestController::class, 'testValidations']);

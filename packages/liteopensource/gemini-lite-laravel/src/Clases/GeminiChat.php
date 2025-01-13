@@ -1,6 +1,8 @@
 <?php
 namespace LiteOpenSource\GeminiLiteLaravel\Src\Clases;
 
+use Liteopensource\GeminiLiteLaravel\Src\Traits\GeminiModelValidations;
+
 use LiteOpenSource\GeminiLiteLaravel\Src\Contracts\GeminiChatInterface;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ConnectException;
@@ -20,6 +22,7 @@ class GeminiChat implements GeminiChatInterface
     use GeminiConfigAndPropertiesJSONStructures;
     use GeminiRequestAndResponsesJSONStructures;
     use GeminiTokenPropertiesJSONStructures;
+    use GeminiModelValidations;
 
     //---------------------------- CONSTRUCTOR SECTION --------------------------
     //---------------------------- CONSTRUCTOR SECTION --------------------------
@@ -91,6 +94,10 @@ class GeminiChat implements GeminiChatInterface
         $this->modelConfigJSON['topP'] = $topP;
         $this->modelConfigJSON['maxOutputTokens'] = $maxOutputTokens;
         $this->modelConfigJSON['responseMimeType'] = $responseMimeType;
+
+        // Validar topK y topP
+        $this->validateTopK($currentModel ?? $this->currentGeminiModel, $topK);
+        $this->validateTopP($currentModel ?? $this->currentGeminiModel, $topP);
 
         //Add response schema if provided. When is printed tha it mean that user is using JSON MODE
         if($responseSchema != null){
