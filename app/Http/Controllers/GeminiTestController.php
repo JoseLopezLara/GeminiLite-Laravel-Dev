@@ -450,4 +450,27 @@ Always return a nutritional profile for food or beverages, adhering to the respo
         }
     }
 
+    public function testGeminiChatHistory()
+    {
+        try {
+            $gemini = Gemini::newChat();
+            $response1 = $gemini->newPrompt('Hola');
+            $response2 = $gemini->newPrompt('¿Cómo estás?');
+            $history = $gemini->getHistory();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Test successful',
+                'data' => [
+                    'history' => $history,
+                ]
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Test failed',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 }

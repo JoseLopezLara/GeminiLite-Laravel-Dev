@@ -24,6 +24,7 @@ Route::get('/testGeminiJSONMode', [GeminiTestController::class, 'testGeminiJSONM
 Route::get('/testGemini', [GeminiTestController::class, 'testGemini']);
 Route::get('/testGeminiPromptNutritionSumary', [GeminiTestController::class, 'testGeminiPromptNutritionSumary']);
 Route::get('/testGetCurrentModelConfig', [GeminiTestGetCurrentModelConfigController::class, 'testGetCurrentModelConfig']);
+Route::get('/testGeminiChatHistory', [GeminiTestController::class, 'testGeminiChatHistory']);
 
 // New Gemini Models Test
 Route::get('/testGeminiFlashV2Exp', [GeminiTestNewModelsController::class, 'testGeminiFlashV2Exp']);

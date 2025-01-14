@@ -38,11 +38,11 @@ class GeminiChat implements GeminiChatInterface
     //---------------------- INTERFACE FUNCTIONS SECTION -----------------------
     // TODO: Add function in future
 
-    public function getHistory(): mixed
-    {
-        return true;
-    }
-
+    
+        public function getHistory(): array
+        {
+            return $this->chatHistoryJSON;
+        }
     public function newPrompt($textPrompt, $fileURI = null, $mimeTipe = null): mixed
     {
         Log::info("[ IN GeminiChat ->  newPrompt: ]. Gemini current model config: ", [$this->modelConfigJSON, $this->currentGeminiModel]);
