@@ -97,6 +97,9 @@ class GeminiChat implements GeminiChatInterface
         $this->validateTopP($modelName, $topP);
         Log::info("[ IN GeminiChat ->  setGeminiModelConfig: ]. topP validated: ", [$topP]);
 
+        $this->validateTemperature($modelName, $temperature);
+        Log::info("[ IN GeminiChat ->  setGeminiModelConfig: ]. temperature validated: ", [$temperature]);
+
         $this->modelConfigJSON['temperature'] = $temperature;
         $this->modelConfigJSON['topK'] = $topK;
         $this->modelConfigJSON['topP'] = $topP;

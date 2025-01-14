@@ -77,6 +77,13 @@ class GeminiValidationTestController extends Controller
                     'temperature' => 0.5,
                     'top_p' => 0.8,
                 ],
+                'invalid_temperature' => [
+                    'prompt' => 'Test prompt',
+                    'max_tokens' => 100,
+                    'temperature' => 3.0, // Invalid temperature
+                    'top_p' => 0.8,
+                    'top_k' => 20,
+                ],
             ];
     
             $results = [];
@@ -93,7 +100,7 @@ class GeminiValidationTestController extends Controller
                             $rules = [
                                 'prompt' => 'required|string',
                                 'max_tokens' => 'nullable|integer|min:1',
-                                'temperature' => 'nullable|numeric|between:0,1',
+                                'temperature' => 'nullable|numeric|between:0,2',
                                 'top_p' => 'nullable|numeric|between:0,1',
                                 'top_k' => 'nullable|integer|min:1',
                             ];

@@ -27,17 +27,17 @@ trait GeminiModelValidations
             return; // Si topK es nulo, no hay validación que hacer
         }
 
-if ($model === 'gemini-1.5-pro') {
-    throw new \InvalidArgumentException("The model {$model} does not support the topK parameter.");
-}
+        if ($model === 'gemini-1.5-pro') {
+            throw new \InvalidArgumentException("The model {$model} does not support the topK parameter.");
+        }
 
-if (isset($modelRanges[$model])) {
-    $min = $modelRanges[$model]['topK'][0];
-    $max = $modelRanges[$model]['topK'][1];
-    if ($topK < $min || $topK > $max) {
-        throw new \InvalidArgumentException("The topK value for the model {$model} must be between {$min} and {$max}.");
-    }
-}
+        if (isset($modelRanges[$model])) {
+            $min = $modelRanges[$model]['topK'][0];
+            $max = $modelRanges[$model]['topK'][1];
+            if ($topK < $min || $topK > $max) {
+                throw new \InvalidArgumentException("The topK value for the model {$model} must be between {$min} and {$max}.");
+            }
+        }
     }
 
     /**
@@ -69,6 +69,39 @@ if (isset($modelRanges[$model])) {
             $max = $modelRanges[$model]['topP'][1];
             if ($topP < $min || $topP > $max) {
                  throw new \InvalidArgumentException("The topP value for the model {$model} must be between {$min} and {$max}.");
+            }
+        }
+    }
+
+    /**
+     * Valida el parámetro temperature para un modelo Gemini.
+     *
+     * @param string $model Nombre del modelo.
+     * @param float|null $temperature Valor de temperature.
+     * @throws \InvalidArgumentException Si el valor de temperature no es válido.
+     */
+    protected function validateTemperature(string $model, ?float $temperature): void
+    {
+        // Definir los rangos válidos para cada modelo
+        $modelRanges = [
+            'gemini-2.0-flash-exp' => ['temperature' => [0.0, 2.0]],
+            'gemini-exp-1206' => ['temperature' => [0.0, 2.0]],
+            'gemini-2.0-flash-thinking-exp-1219' => ['temperature' => [0.0, 2.0]],
+            'learnlm-1.5-pro-experimental' => ['temperature' => [0.0, 2.0]],
+            'gemini-1.5-pro' => ['temperature' => [0.0, 2.0]],
+            'gemini-1.5-flash' => ['temperature' => [0.0, 2.0]],
+            'gemini-1.5-flash-8b' => ['temperature' => [0.0, 2.0]],
+        ];
+
+        if ($temperature === null) {
+            return; // Si temperature es nulo, no hay validación que hacer
+        }
+
+        if (isset($modelRanges[$model]['temperature'])) {
+            $min = $modelRanges[$model]['temperature'][0];
+            $max = $modelRanges[$model]['temperature'][1];
+            if ($temperature < $min || $temperature > $max) {
+                throw new \InvalidArgumentException("The temperature value for the model {$model} must be between {$min} and {$max}.");
             }
         }
     }
