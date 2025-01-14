@@ -71,12 +71,14 @@ GET /testGeminiJSONMode HTTP/1.1
 Host: http://127.0.0.1:8000/
 ```
 
+
 ## Usage
+
+The `GeminiChat` class now includes a `getHistory()` method that returns the full chat history as an array.
 
 ### Publish All Files
 
 To publish all files, including migrations, seeders, and configuration files, run:
-
 ```bash
 php artisan vendor:publish --provider="LiteOpenSource\GeminiLiteLaravel\Src\Providers\GeminiLiteServiceProvider"
 ```
