@@ -24,21 +24,26 @@ class GeminiTestController extends Controller
 
         $tokens = GeminiTokenCount::coutTextTokens("Hola");
         $gemini = Gemini::newChat();
+        //$response = $gemini->newPrompt("Hola gemini ");
+        //return response()->json(['[info' => $response]);
+
         $user = user::find(1);
-        if (!$user->canMakeRequestToGemini()){
-            return response()->json([
-                'status' =>  'error',
-                'message' =>  'The user cannot make request'
-            ],403);
-        }
-        $user->updateUsageTracking($tokens);
-        //$response = $gemini->newPrompt("Hola gemini mi nombre es ".$user->name);
-        $user->storeGeminiRequest("", $tokens, true, ['response' => 'random'],['response' => 'random']);
+        $user->storeGeminiRequest("", 324, true, ['response' => 'random'],['response' => 'random']);
+
+         if (!$user->canMakeRequestToGemini()){
+             return response()->json([
+                 'status' =>  'error',
+                 'message' =>  'The user cannot make request'
+             ],403);
+         }
+
+        $user->updateUsageTracking(234);
+
         return response()->json([
             'user' => $user,
             'isActive' => $user->isActiveInGemini(),
             'can make request' => $user->canMakeRequestToGemini(),
-            'tokenNumber' => $tokens
+            'tokenNumber' => $tokens,
         ]);
     }
 
