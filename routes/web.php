@@ -18,6 +18,7 @@ Route::get('/test', [UploadFileToGeminiTestController::class, 'test']);
 
 //Gemini
 Route::get('/testGeminiPrompts', [GeminiTestController::class, 'testGeminiPrompts']);
+Route::get('/testGeminiRol', [GeminiTestController::class, 'testLimitTokens']);
 Route::get('/testGeminiPromptsConfig', [GeminiTestController::class, 'testGeminiPromptsConfig']);
 Route::get('/testGeminiChangeBetweenModels', [GeminiTestBetweenModelController::class, 'testGeminiBetweenModel']);
 Route::get('/testGeminiJSONMode', [GeminiTestController::class, 'testGeminiJSONMode']);

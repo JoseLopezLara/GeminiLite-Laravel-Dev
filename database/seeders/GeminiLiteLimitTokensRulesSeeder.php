@@ -1,6 +1,6 @@
 <?php
 
-namespace LiteOpenSource\GeminiLiteLaravel\Src\Database\Seeders;
+namespace Database\Seeders;
 
 
 use Illuminate\Database\Seeder;
@@ -15,6 +15,17 @@ class GeminiLiteLimitTokensRulesSeeder extends Seeder
             'description' => 'A patient registered in the system',
             'daily_request_limit' => 100,
             'monthly_request_limit' => 3000,
+            'daily_token_limit' => 300000,
+            'monthly_token_limit' => 30000000,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+
+        DB::table('gemini_lite_roles')->insert([
+            'name' => 'limited_user',
+            'description' => 'A user with limited requests to gemini',
+            'daily_request_limit' => 2,
+            'monthly_request_limit' => 2,
             'daily_token_limit' => 300000,
             'monthly_token_limit' => 30000000,
             'created_at' => now(),

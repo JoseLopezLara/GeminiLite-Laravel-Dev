@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('gemini_lite_request_logs', function (Blueprint $table) {
             $table->id(); // id como PK
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->string('request_type');
             $table->integer('consumed_tokens');
             $table->boolean('request_successful');
@@ -22,7 +22,7 @@ return new class extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('geminilite_request_logs');
+        Schema::dropIfExists('gemini_lite_request_logs');
     }
 };
 
