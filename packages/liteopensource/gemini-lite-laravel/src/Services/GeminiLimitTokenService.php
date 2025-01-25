@@ -3,8 +3,9 @@
 namespace LiteOpenSource\GeminiLiteLaravel\Src\Services;
 
 use LiteOpenSource\GeminiLiteLaravel\Src\Models\GeminiLiteRequestLog;
+use LiteOpenSource\GeminiLiteLaravel\Src\Contracts\GeminiLimitTokenServiceInterface;
 
-class GeminiLimitTokenService
+class GeminiLimitTokenService implements GeminiLimitTokenServiceInterface
 {
     public function canMakeRequest($user): bool
     {

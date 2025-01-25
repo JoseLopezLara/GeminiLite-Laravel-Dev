@@ -24,6 +24,6 @@ class DatabaseSeeder extends Seeder
         $this->call([
             GeminiLiteLimitTokensRulesSeeder::class
         ]);
-        $user->assignGeminiRole(1);
+        $user->assignGeminiRole("Patient");
     }
 }

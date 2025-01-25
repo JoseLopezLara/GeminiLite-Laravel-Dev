@@ -23,9 +23,6 @@ class GeminiTestController extends Controller
     public function testLimitTokens(){
 
         $tokens = GeminiTokenCount::coutTextTokens("Hola");
-        $gemini = Gemini::newChat();
-        //$response = $gemini->newPrompt("Hola gemini ");
-        //return response()->json(['[info' => $response]);
 
         $user = user::find(1);
         $user->storeGeminiRequest("", 324, true, ['response' => 'random'],['response' => 'random']);
