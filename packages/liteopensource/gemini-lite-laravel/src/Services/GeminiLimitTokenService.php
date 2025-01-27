@@ -2,14 +2,18 @@
 
 namespace LiteOpenSource\GeminiLiteLaravel\Src\Services;
 
+use DB;
 use LiteOpenSource\GeminiLiteLaravel\Src\Models\GeminiLiteRequestLog;
 use LiteOpenSource\GeminiLiteLaravel\Src\Contracts\GeminiLimitTokenServiceInterface;
+use LiteOpenSource\GeminiLiteLaravel\Src\Models\GeminiLiteRole;
+use LiteOpenSource\GeminiLiteLaravel\Src\Models\GeminiLiteRoleAssignment;
+use LiteOpenSource\GeminiLiteLaravel\Src\Models\GeminiLiteUsage;
 
 class GeminiLimitTokenService implements GeminiLimitTokenServiceInterface
 {
     public function canMakeRequest($user): bool
     {
-        $usage = $user->geminiLiteUsage;
+        $usage = GeminiLiteUsage::where("user_id", $user->id)->firstOrFail();
 
         if (!$usage) {
             $usage = $this->initializeUsage($user);
@@ -22,7 +26,8 @@ class GeminiLimitTokenService implements GeminiLimitTokenServiceInterface
 
     private function initializeUsage($user)
     {
-        return $user->geminiLiteUsage()->create([
+        return GeminiLiteUsage::create([
+            "user_id"=> $user->id,
             'can_make_requests' => true,
             'current_day_tracking_start' => now(),
             'current_month_tracking_start' => now(),
@@ -46,7 +51,7 @@ class GeminiLimitTokenService implements GeminiLimitTokenServiceInterface
         ]);
     }
     public function updateUsage($user, $tokens){
-        $geminiUsage = $user->geminiLiteUsage();
+        $geminiUsage = GeminiLiteUsage::where("user_id", $user->id)->firstOrFail();
         $this->validateDailyLimits($user);
         $this->validateMonthlyLimits($user);
 
@@ -62,41 +67,48 @@ class GeminiLimitTokenService implements GeminiLimitTokenServiceInterface
         $this->validateDailyLimits($user);
         $this->validateMonthlyLimits($user);
 
-        $usage = $user->geminiLiteUsage()->first();
-        $role = $user->roles()->first();
+        $usage = GeminiLiteUsage::where("user_id", $user->id)->firstOrFail();
+
+        $roleId = DB::table('gemini_lite_role_assignments')
+                ->where('user_id', $user->id)
+                ->pluck('role_id'); // Obtiene solo los IDs de los roles
+
+        $role = GeminiLiteRole::where('id', $roleId)->first();
         if (
             $role->daily_request_limit <= $usage->completed_requests_today || 
             $role->monthly_request_limit <= $usage->completed_requests_user_month ||
             $role->daily_token_limit <= $usage->consumed_tokens_today  ||
             $role->monthly_token_limit <= $usage->consumed_tokens_user_month
         ){
-            $user->geminiLiteUsage()->update(['can_make_requests' => false]);
+            $usage->update(['can_make_requests' => false]);
             return false;
         }else {
-            $user->geminiLiteUsage()->update(['can_make_requests' => true]);
+            $usage->update(['can_make_requests' => true]);
             return true;
         }
 
     }
 
     private function validateDailyLimits($user){
-        $lastRequestTime = \Carbon\Carbon::parse($user->geminiLiteUsage()->first()->last_request_completion_time);
+        $usage = GeminiLiteUsage::where("user_id", $user->id)->firstOrFail();
+        $lastRequestTime = \Carbon\Carbon::parse($usage->last_request_completion_time);
 
         if ($lastRequestTime->format('Y-m-d') !== now()->format('Y-m-d')) {
             // Reiniciar contadores diarios
-            $user->geminiLiteUsage()->update([
+            $usage->update([
                 'completed_requests_today' => 0,
                 'consumed_tokens_today' => 0,
                 'current_day_tracking_start' => now()->toDateTimeString(), // Guardar como string
             ]);
         }
     }
-    protected function validateMonthlyLimits($user){
-        $lastRequestTime = \Carbon\Carbon::parse($user->geminiLiteUsage()->first()->last_request_completion_time);
+    private function validateMonthlyLimits($user){
+        $usage = GeminiLiteUsage::where("user_id", $user->id)->firstOrFail();
+        $lastRequestTime = \Carbon\Carbon::parse($usage->last_request_completion_time);
 
         if ($lastRequestTime->format('Y-m') !== now()->format('Y-m')) {
             // Reiniciar contadores mensuales
-            $user->geminiLiteUsage()->update([
+            $usage->update([
                 'completed_requests_this_month' => 0,
                 'consumed_tokens_this_month' => 0,
                 'current_month_tracking_start' => now()->toDateTimeString(), // Guardar como string

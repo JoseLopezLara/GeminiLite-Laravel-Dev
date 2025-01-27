@@ -36,31 +36,5 @@ trait HasGeminiRoles
 
     }
 
-    /**
-     * Get all of the geminiLiteRequestLog for the HasGeminiRoles
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function geminiLiteRequestLog(): HasMany
-    {
-        return $this->hasMany(GeminiLiteRequestLog::class, 'user_id', 'id');
-    }
-
-    public function roles(){
-        return $this->belongsToMany(
-            GeminiLiteRole::class,
-            'gemini_lite_role_assignments', // Tabla pivote
-            'user_id',                     // Clave foránea del modelo actual
-            'role_id'                      // Clave foránea del rol
-        )->withPivot('active')->withTimestamps();
-    }
-
-    public function geminiLiteUsage(){
-        return $this->hasOne(
-            GeminiLiteUsage::class,
-            'user_id', // Clave foránea en gemini_lite_usage
-            'id'       // Clave primaria en el modelo User
-        );
-    }
 
 }
