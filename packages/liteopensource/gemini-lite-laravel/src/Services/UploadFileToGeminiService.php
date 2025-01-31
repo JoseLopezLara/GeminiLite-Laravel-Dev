@@ -1,5 +1,6 @@
 <?php
 
+namespace LiteOpenSource\GeminiLiteLaravel\Src\Services;
 use LiteOpenSource\GeminiLiteLaravel\Src\Contracts\UploadFileToGeminiServiceInterface;
 use Illuminate\Support\Facades\Log;
 use LiteOpenSource\GeminiLiteLaravel\Src\DataObjects\UploadFileToGeminiResult;
