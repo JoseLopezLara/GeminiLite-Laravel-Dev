@@ -1,7 +1,6 @@
 <?php
 namespace LiteOpenSource\GeminiLiteLaravel\Src\Clases;
 
-use Liteopensource\GeminiLiteLaravel\Src\Traits\GeminiModelValidations;
 
 use LiteOpenSource\GeminiLiteLaravel\Src\Contracts\GeminiChatInterface;
 use GuzzleHttp\Exception\RequestException;
@@ -11,6 +10,7 @@ use Illuminate\Support\Facades\Log;
 use LiteOpenSource\GeminiLiteLaravel\Src\Traits\GeminiConfigAndPropertiesJSONStructures;
 use LiteOpenSource\GeminiLiteLaravel\Src\Traits\GeminiRequestAndResponsesJSONStructures;
 use LiteOpenSource\GeminiLiteLaravel\Src\Traits\GeminiTokenPropertiesJSONStructures;
+use Liteopensource\GeminiLiteLaravel\Src\Traits\GeminiModelValidations;
 
 class GeminiChat implements GeminiChatInterface
 {
