@@ -15,25 +15,25 @@ class GeminiTestControllerTest extends TestCase
     {
         $response = $this->getJson(route('GeminiPrompts'));
 
-        $response->assertStatus(200);
+        $response->assertStatus(200)->assertJson(['success' => true]);
     }
     public function test_PromptsConfig(): void
     {
         $response = $this->getJson(route('GeminiPromptsConfig'));
 
-        $response->assertStatus(200);
+        $response->assertStatus(200)->assertJson(['success' => true]);
     }
     public function test_ChangeBetweenn_models(): void
     {
         $response = $this->getJson(route('GeminiBetweenModel'));
 
-        $response->assertStatus(200);
+        $response->assertStatus(200)->assertJson(['success' => true]);
     }
     public function test_JSON_Mode(): void
     {
         $response = $this->getJson(route('GeminiJSONMode'));
 
-        $response->assertStatus(200);
+        $response->assertStatus(200)->assertJson(['success' => true]);
     }
     public function test_Gemini(): void
     {
@@ -45,18 +45,18 @@ class GeminiTestControllerTest extends TestCase
     {
         $response = $this->getJson(route('GeminiPromptNutritionSumary'));
 
-        $response->assertStatus(200);
+        $response->assertStatus(200)->assertJson(['success' => true]);
     }
     public function test_current_model(): void
     {
         $response = $this->getJson(route('CurrentModel'));
 
-        $response->assertStatus(200);
+        $response->assertStatus(200)->assertJson(['success' => true]);
     }
     public function test_chat_history(): void
     {
         $response = $this->getJson(route('GeminiHistory'));
 
-        $response->assertStatus(200);
+        $response->assertStatus(200)->assertJson(['success' => true]);
     }
 }

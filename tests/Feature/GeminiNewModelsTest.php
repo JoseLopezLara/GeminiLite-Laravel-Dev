@@ -15,24 +15,24 @@ class GeminiNewModelsTest extends TestCase
     {
         $response = $this->getJson(route('get.GeminiFlashV2Exp'));
 
-        $response->assertStatus(200);
+        $response->assertStatus(200)->assertJson(['success' => true]);
     }
     public function test_Exp1206(): void
     {
         $response = $this->getJson(route('GeminiExp1206'));
 
-        $response->assertStatus(200);
+        $response->assertStatus(200)->assertJson(['success' => true]);
     }
     public function test_lmproExp(): void
     {
         $response = $this->getJson(route('LearnLMPProExp'));
 
-        $response->assertStatus(200);
+        $response->assertStatus(200)->assertJson(['success' => true]);
     }
     public function test_GeminiFlashV2ThinkingExp(): void
     {
         $response = $this->getJson(route('GeminiFlashV2ThinkingExp'));
 
-        $response->assertStatus(200);
+        $response->assertStatus(200)->assertJson(['success' => true]);
     }
 }

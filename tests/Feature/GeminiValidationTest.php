@@ -13,8 +13,8 @@ class GeminiValidationTest extends TestCase
      */
     public function test_example(): void
     {
-        $response = $this->get('/');
+        $response = $this->getJson(route('get.validLimits'));
 
-        $response->assertStatus(200);
+        $response->assertStatus(200)->assertJson(['success' => true]);
     }
 }
