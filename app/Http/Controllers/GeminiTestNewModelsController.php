@@ -18,7 +18,7 @@ class GeminiTestNewModelsController extends Controller
         try {
             // Initialize Gemini chat with the specified model.
             $gemini = Gemini::newChat();
-            $gemini->changeGeminiModel('GEMINI_FLASH_V2_0_EXP');
+            $gemini->changeGeminiModel('gemini-2.0-flash-exp');
 
             // Send a simple prompt to test the model.
             $response = $gemini->newPrompt('What is the capital of France?');
@@ -51,7 +51,7 @@ class GeminiTestNewModelsController extends Controller
         try {
             // Initialize Gemini chat with the specified model.
             $gemini = Gemini::newChat();
-            $gemini->changeGeminiModel('GEMINI_EXP_1206');
+            $gemini->changeGeminiModel('gemini-exp-1206');
 
             // Send a simple prompt to test the model.
             $response = $gemini->newPrompt('What is the largest planet in our solar system?');
@@ -84,7 +84,7 @@ class GeminiTestNewModelsController extends Controller
         try {
             // Initialize Gemini chat with the specified model.
             $gemini = Gemini::newChat();
-            $gemini->changeGeminiModel('LEARNLM_1_5_PRO_EXP');
+            $gemini->changeGeminiModel('learnlm-1.5-pro-experimental');
 
             // Send a simple prompt to test the model.
             $response = $gemini->newPrompt('What is the meaning of life?');
@@ -117,7 +117,7 @@ class GeminiTestNewModelsController extends Controller
         try {
             // Initialize Gemini chat with the specified model.
             $gemini = Gemini::newChat();
-            $gemini->changeGeminiModel('GEMINI_FLASH_V2_0_THINKING_EXP');
+            $gemini->changeGeminiModel('gemini-2.0-flash-thinking-exp-01-21');
 
             // Send a simple prompt to test the model.
             $response = $gemini->newPrompt('What is the speed of light?');

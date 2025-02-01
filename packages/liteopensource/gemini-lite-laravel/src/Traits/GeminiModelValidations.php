@@ -17,7 +17,7 @@ trait GeminiModelValidations
         $modelRanges = [
             'gemini-2.0-flash-exp' => ['topK' => [1, 40]],
             'gemini-exp-1206' => ['topK' => [1, 40]],
-            'gemini-2.0-flash-thinking-exp-1219' => ['topK' => [1, 40]],
+            'gemini-2.0-flash-thinking-exp-01-21' => ['topK' => [1, 40]],
             'learnlm-1.5-pro-experimental' => ['topK' => [1, 40]],
             'gemini-1.5-flash' => ['topK' => [1, 40]],
             'gemini-1.5-flash-8b' => ['topK' => [1, 40]],
@@ -53,7 +53,7 @@ trait GeminiModelValidations
          $modelRanges = [
             'gemini-2.0-flash-exp' => ['topP' => [0.0, 1.0]],
             'gemini-exp-1206' => ['topP' => [0.0, 1.0]],
-            'gemini-2.0-flash-thinking-exp-1219' => ['topP' => [0.0, 1.0]],
+            'gemini-2.0-flash-thinking-exp-01-21' => ['topP' => [0.0, 1.0]],
             'learnlm-1.5-pro-experimental' => ['topP' => [0.0, 1.0]],
             'gemini-1.5-pro' => ['topP' => [0.0, 1.0]],
             'gemini-1.5-flash' => ['topP' => [0.0, 1.0]],
@@ -86,7 +86,7 @@ trait GeminiModelValidations
         $modelRanges = [
             'gemini-2.0-flash-exp' => ['temperature' => [0.0, 2.0]],
             'gemini-exp-1206' => ['temperature' => [0.0, 2.0]],
-            'gemini-2.0-flash-thinking-exp-1219' => ['temperature' => [0.0, 2.0]],
+            'gemini-2.0-flash-thinking-exp-01-21' => ['temperature' => [0.0, 2.0]],
             'learnlm-1.5-pro-experimental' => ['temperature' => [0.0, 2.0]],
             'gemini-1.5-pro' => ['temperature' => [0.0, 2.0]],
             'gemini-1.5-flash' => ['temperature' => [0.0, 2.0]],
