@@ -5,6 +5,7 @@ use App\Http\Controllers\GeminiChatTest\GeminiTestGetCurrentModelConfigControlle
 use App\Http\Controllers\GeminiTestController;
 use App\Http\Controllers\GeminiTestNewModelsController;
 use App\Http\Controllers\UploadFileToGeminiTestController;
+use App\Http\Controllers\EmbeddingTestController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -35,3 +36,10 @@ Route::get('/testGeminiFlashV2ThinkingExp', [GeminiTestNewModelsController::clas
 
 // Gemini Validations Test
 Route::get('/api/gemini/validation-test', [\App\Http\Controllers\GeminiValidationTestController::class, 'testValidations']);
+
+// Embedding Test Routes
+Route::prefix('api/embedding')->group(function () {
+    Route::post('/single', [EmbeddingTestController::class, 'testSingleEmbedding']);
+    Route::post('/batch', [EmbeddingTestController::class, 'testBatchEmbedding']);
+    Route::post('/similarity', [EmbeddingTestController::class, 'testSimilarity']);
+});

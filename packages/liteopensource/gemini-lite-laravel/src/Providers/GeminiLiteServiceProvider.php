@@ -6,16 +6,17 @@ use Illuminate\Support\ServiceProvider;
 use LiteOpenSource\GeminiLiteLaravel\Src\Contracts\GeminiServiceInterface;
 use LiteOpenSource\GeminiLiteLaravel\Src\Contracts\GeminiTokenCountInterface;
 use LiteOpenSource\GeminiLiteLaravel\Src\Contracts\UploadFileToGeminiServiceInterface;
+use LiteOpenSource\GeminiLiteLaravel\Src\Contracts\EmbeddingServiceInterface;
 use LiteOpenSource\GeminiLiteLaravel\Src\Services\GeminiService;
 use LiteOpenSource\GeminiLiteLaravel\Src\Services\GeminiTokenCountService;
 use LiteOpenSource\GeminiLiteLaravel\Src\Services\UploadFileToGeminiService;
+use LiteOpenSource\GeminiLiteLaravel\Src\Services\EmbeddingService;
 
 class GeminiLiteServiceProvider extends ServiceProvider
 {
     public function register()
     {
         // REGISTER: Merging config file to config file for Laravel APP
-        //TODO: This does not work, does't merge with config files
         $this->mergeConfigFrom(
             __DIR__.'/../../config/geminilite.php', 'geminilite'
         );
@@ -29,13 +30,23 @@ class GeminiLiteServiceProvider extends ServiceProvider
         // REGISTER: GeminiService to service container
         $this->app->bind(GeminiServiceInterface::class, function ($app){
             $geminiLiteSecretApiKey = config('geminilite.geminilite_secret_api_key');
-            return new GeminiService($geminiLiteSecretApiKey );
+            return new GeminiService($geminiLiteSecretApiKey);
         });
 
         // REGISTER: GeminiTokeCountService to service container
         $this->app->bind(GeminiTokenCountInterface::class, function ($app){
             $geminiLiteSecretApiKey = config('geminilite.geminilite_secret_api_key');
-            return new GeminiTokenCountService($geminiLiteSecretApiKey );
+            return new GeminiTokenCountService($geminiLiteSecretApiKey);
+        });
+
+        // REGISTER: EmbeddingService to service container
+        $this->app->bind(EmbeddingServiceInterface::class, function ($app) {
+            return new EmbeddingService();
+        });
+
+        // Register the Embedding facade accessor
+        $this->app->bind('gemini-embedding', function ($app) {
+            return $app->make(EmbeddingServiceInterface::class);
         });
     }
 
@@ -47,25 +58,13 @@ class GeminiLiteServiceProvider extends ServiceProvider
         ], 'geminilite-config');
 
         // PUBLISH: Publishing seeder file to seeder folder --tag="geminilite-config"
-
         $this->publishes([
-            //__DIR__.'/../Database/Migrations/0000_00_00_000000_create_gemini_lite_limit_tokes_data_table.php' => database_path('migrations/0000_00_00_000000_create_gemini_lite_auth_data_table.php'),
             __DIR__.'/../Database/Seeders/GeminiLiteLimitTokensRulesSeeder.php' => database_path('seeders/GeminiLiteAuthDataSeeder.php'),
         ], 'geminilite-limit-tokes');
 
         // PUBLISH: Migrations
-        //TODO: This does not work, does't copy migratioons to migrations folder
         $this->publishesMigrations([
             __DIR__ . '/../Database/Migrations' => database_path('migrations')
         ]);
-
-        //TODO: Try if this works and it's necesary
-        // PUBLISH: Comand tha run seeder comand using "php artisan geminilite:seed"
-        // if ($this->app->runningInConsole()) {
-        //     $this->commands([
-        //         \LiteOpenSource\GeminiLiteLaravel\Src\Commands\RunSeederCommand::class,
-        //     ]);
-        // }
     }
 }
-
