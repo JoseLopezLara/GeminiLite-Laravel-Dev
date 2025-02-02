@@ -4,6 +4,7 @@ use App\Http\Controllers\GeminiChatTest\GeminiTestBetweenModelController;
 use App\Http\Controllers\GeminiChatTest\GeminiTestGetCurrentModelConfigController;
 use App\Http\Controllers\GeminiTestController;
 use App\Http\Controllers\GeminiTestNewModelsController;
+use App\Http\Controllers\TokenLimitController;
 use App\Http\Controllers\UploadFileToGeminiTestController;
 use Illuminate\Support\Facades\Route;
 
@@ -35,3 +36,7 @@ Route::get('/testGeminiFlashV2ThinkingExp', [GeminiTestNewModelsController::clas
 
 // Gemini Validations Test
 Route::get('/api/gemini/validation-test', [\App\Http\Controllers\GeminiValidationTestController::class, 'testValidations'])->name('get.validLimits');
+
+//Token Limit
+Route::get('/testTokenCount', [TokenLimitController::class, 'tokenCounter'])->name('testTokenCounter');
+Route::get('/canMakeRequest', [TokenLimitController::class, 'canMakeRequestT'])->name('testCanMakeRequest');

@@ -13,7 +13,7 @@ class GeminiLimitTokenService implements GeminiLimitTokenServiceInterface
 {
     public function canMakeRequest($user): bool
     {
-        $usage = GeminiLiteUsage::where("user_id", $user->id)->firstOrFail();
+        $usage = GeminiLiteUsage::where("user_id", $user->id)->first();
 
         if (!$usage) {
             $usage = $this->initializeUsage($user);
@@ -51,7 +51,7 @@ class GeminiLimitTokenService implements GeminiLimitTokenServiceInterface
         ]);
     }
     public function updateUsage($user, $tokens){
-        $geminiUsage = GeminiLiteUsage::where("user_id", $user->id)->firstOrFail();
+        $geminiUsage = GeminiLiteUsage::where("user_id", $user->id)->first();
         $this->validateDailyLimits($user);
         $this->validateMonthlyLimits($user);
 
@@ -67,7 +67,7 @@ class GeminiLimitTokenService implements GeminiLimitTokenServiceInterface
         $this->validateDailyLimits($user);
         $this->validateMonthlyLimits($user);
 
-        $usage = GeminiLiteUsage::where("user_id", $user->id)->firstOrFail();
+        $usage = GeminiLiteUsage::where("user_id", $user->id)->first();
 
         $roleId = DB::table('gemini_lite_role_assignments')
                 ->where('user_id', $user->id)
@@ -90,7 +90,7 @@ class GeminiLimitTokenService implements GeminiLimitTokenServiceInterface
     }
 
     private function validateDailyLimits($user){
-        $usage = GeminiLiteUsage::where("user_id", $user->id)->firstOrFail();
+        $usage = GeminiLiteUsage::where("user_id", $user->id)->first();
         $lastRequestTime = \Carbon\Carbon::parse($usage->last_request_completion_time);
 
         if ($lastRequestTime->format('Y-m-d') !== now()->format('Y-m-d')) {
@@ -103,7 +103,7 @@ class GeminiLimitTokenService implements GeminiLimitTokenServiceInterface
         }
     }
     private function validateMonthlyLimits($user){
-        $usage = GeminiLiteUsage::where("user_id", $user->id)->firstOrFail();
+        $usage = GeminiLiteUsage::where("user_id", $user->id)->first();
         $lastRequestTime = \Carbon\Carbon::parse($usage->last_request_completion_time);
 
         if ($lastRequestTime->format('Y-m') !== now()->format('Y-m')) {

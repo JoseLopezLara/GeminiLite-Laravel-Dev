@@ -27,12 +27,12 @@ class GeminiTestController extends Controller
         $user = user::find(1);
         $user->storeGeminiRequest("", 324, true, ['response' => 'random'],['response' => 'random']);
 
-         if (!$user->canMakeRequestToGemini()){
-             return response()->json([
-                 'status' =>  'error',
-                 'message' =>  'The user cannot make request'
-             ],403);
-         }
+        if (!$user->canMakeRequestToGemini()){
+            return response()->json([
+                'status' =>  'error',
+                'message' =>  'The user cannot make request'
+            ],403);
+        }
 
         $user->updateUsageTracking(234);
 
