@@ -5,6 +5,7 @@ namespace LiteOpenSource\GeminiLiteLaravel\Src\Services;
 use Illuminate\Support\Facades\Http;
 use LiteOpenSource\GeminiLiteLaravel\Src\Contracts\EmbeddingServiceInterface;
 use InvalidArgumentException;
+use Illuminate\Support\Facades\Log;
 
 class EmbeddingService implements EmbeddingServiceInterface
 {
@@ -12,17 +13,25 @@ class EmbeddingService implements EmbeddingServiceInterface
     protected string $baseUrl = 'https://generativelanguage.googleapis.com/v1beta';
     protected string $model = 'models/text-embedding-004';
 
-    public function __construct()
+    public function __construct(string $apiKey)
     {
-        $this->apiKey = config('geminilite.geminilite_secret_api_key');
+        Log::info("[ IN EmbeddingService -> __construct ]");
         
-        if (empty($this->apiKey)) {
+        if (empty($apiKey)) {
             throw new InvalidArgumentException('API key is required');
         }
+
+        $this->apiKey = $apiKey;
     }
 
     public function embedText(string $text, array $options = []): array
     {
+        Log::info("[ IN EmbeddingService -> embedText ]");
+
+        if (empty(trim($text))) {
+            throw new InvalidArgumentException('Text cannot be empty');
+        }
+
         $endpoint = "{$this->baseUrl}/{$this->model}:embedContent";
         
         $payload = [
@@ -58,6 +67,18 @@ class EmbeddingService implements EmbeddingServiceInterface
 
     public function embedBatch(array $texts, array $options = []): array
     {
+        Log::info("[ IN EmbeddingService -> embedBatch ]");
+
+        if (empty($texts)) {
+            throw new InvalidArgumentException('Texts array cannot be empty');
+        }
+
+        foreach ($texts as $text) {
+            if (empty(trim($text))) {
+                throw new InvalidArgumentException('Each text in batch must not be empty');
+            }
+        }
+
         $endpoint = "{$this->baseUrl}/{$this->model}:batchEmbedContents";
 
         $requests = array_map(function($text) use ($options) {

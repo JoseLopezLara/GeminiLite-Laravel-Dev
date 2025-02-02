@@ -2,77 +2,110 @@
 
 namespace App\Http\Controllers;
 
-use LiteOpenSource\GeminiLiteLaravel\Src\Facades\Embedding;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use LiteOpenSource\GeminiLiteLaravel\Src\Facades\Embedding;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class EmbeddingTestController extends Controller
 {
-    /**
-     * Genera un embedding para un texto individual.
-     */
+    protected function validateData(array $data, array $rules): \Illuminate\Validation\Validator
+    {
+        return Validator::make($data, $rules);
+    }
+
     public function testSingleEmbedding(Request $request): JsonResponse
     {
-        $request->validate([
-            'text' => 'required|string'
-        ]);
-
         try {
-            $embedding = Embedding::embedText($request->text, [
-                'taskType' => 'SEMANTIC_SIMILARITY'
+            Log::info('[ IN EmbeddingTestController -> testSingleEmbedding ]');
+
+            $validator = $this->validateData($request->all(), [
+                'text' => 'required|string|min:1'
             ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Validation failed',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+
+            $embedding = Embedding::embedText($request->text);
 
             return response()->json([
                 'success' => true,
-                'embedding' => $embedding
-            ]);
+                'message' => 'Test successful',
+                'data' => [
+                    'embedding' => $embedding
+                ]
+            ], 200);
+
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
+                'message' => 'Test failed',
                 'error' => $e->getMessage()
             ], 500);
         }
     }
 
-    /**
-     * Genera embeddings para múltiples textos en lote.
-     */
     public function testBatchEmbedding(Request $request): JsonResponse
     {
-        $request->validate([
-            'texts' => 'required|array',
-            'texts.*' => 'required|string'
-        ]);
-
         try {
-            $embeddings = Embedding::embedBatch($request->texts, [
-                'taskType' => 'SEMANTIC_SIMILARITY'
+            Log::info('[ IN EmbeddingTestController -> testBatchEmbedding ]');
+
+            $validator = $this->validateData($request->all(), [
+                'texts' => 'required|array',
+                'texts.*' => 'required|string|min:1'
             ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Validation failed',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+
+            $embeddings = Embedding::embedBatch($request->texts);
 
             return response()->json([
                 'success' => true,
-                'embeddings' => $embeddings
-            ]);
+                'message' => 'Test successful',
+                'data' => [
+                    'embeddings' => $embeddings
+                ]
+            ], 200);
+
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
+                'message' => 'Test failed',
                 'error' => $e->getMessage()
             ], 500);
         }
     }
 
-    /**
-     * Demuestra el cálculo de similitud entre dos textos usando embeddings.
-     */
     public function testSimilarity(Request $request): JsonResponse
     {
-        $request->validate([
-            'text1' => 'required|string',
-            'text2' => 'required|string'
-        ]);
-
         try {
-            // Obtener embeddings para ambos textos
+            Log::info('[ IN EmbeddingTestController -> testSimilarity ]');
+
+            $validator = $this->validateData($request->all(), [
+                'text1' => 'required|string|min:1',
+                'text2' => 'required|string|min:1'
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Validation failed',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+
             $embedding1 = Embedding::embedText($request->text1);
             $embedding2 = Embedding::embedText($request->text2);
 
@@ -81,21 +114,23 @@ class EmbeddingTestController extends Controller
 
             return response()->json([
                 'success' => true,
-                'similarity' => $similarity,
-                'embedding1' => $embedding1,
-                'embedding2' => $embedding2
-            ]);
+                'message' => 'Test successful',
+                'data' => [
+                    'similarity' => $similarity,
+                    'embedding1' => $embedding1,
+                    'embedding2' => $embedding2
+                ]
+            ], 200);
+
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
+                'message' => 'Test failed',
                 'error' => $e->getMessage()
             ], 500);
         }
     }
 
-    /**
-     * Calcula la similitud del coseno entre dos vectores de embedding.
-     */
     private function cosineSimilarity(array $vector1, array $vector2): float
     {
         if (count($vector1) !== count($vector2)) {

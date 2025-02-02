@@ -12,6 +12,6 @@ class Embedding extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'gemini-embedding';
+        return 'LiteOpenSource\GeminiLiteLaravel\Src\Contracts\EmbeddingServiceInterface';
     }
 }

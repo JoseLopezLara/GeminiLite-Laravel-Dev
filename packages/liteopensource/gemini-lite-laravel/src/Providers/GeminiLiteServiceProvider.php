@@ -41,12 +41,8 @@ class GeminiLiteServiceProvider extends ServiceProvider
 
         // REGISTER: EmbeddingService to service container
         $this->app->bind(EmbeddingServiceInterface::class, function ($app) {
-            return new EmbeddingService();
-        });
-
-        // Register the Embedding facade accessor
-        $this->app->bind('gemini-embedding', function ($app) {
-            return $app->make(EmbeddingServiceInterface::class);
+            $geminiLiteSecretApiKey = config('geminilite.geminilite_secret_api_key');
+            return new EmbeddingService($geminiLiteSecretApiKey);
         });
     }
 
