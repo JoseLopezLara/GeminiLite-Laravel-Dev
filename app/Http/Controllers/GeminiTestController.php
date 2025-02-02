@@ -20,30 +20,6 @@ class GeminiTestController extends Controller
         'message' => 'This is a test controller for Gemini $textPrompt']);
     }
 
-    public function testLimitTokens(){
-
-        $tokens = GeminiTokenCount::coutTextTokens("Hola");
-
-        $user = user::find(1);
-        $user->storeGeminiRequest("", 324, true, ['response' => 'random'],['response' => 'random']);
-
-        if (!$user->canMakeRequestToGemini()){
-            return response()->json([
-                'status' =>  'error',
-                'message' =>  'The user cannot make request'
-            ],403);
-        }
-
-        $user->updateUsageTracking(234);
-
-        return response()->json([
-            'user' => $user,
-            'isActive' => $user->isActiveInGemini(),
-            'can make request' => $user->canMakeRequestToGemini(),
-            'tokenNumber' => $tokens,
-        ]);
-    }
-
     public function testGeminiPrompts()
     {
         try {
