@@ -52,14 +52,14 @@ class GeminiLimitTokenService implements GeminiLimitTokenServiceInterface
     }
     public function updateUsage($user, $tokens){
         $geminiUsage = GeminiLiteUsage::where("user_id", $user->id)->first();
-        $this->validateDailyLimits($user);
-        $this->validateMonthlyLimits($user);
 
         $geminiUsage->increment('completed_requests_today');
         $geminiUsage->increment('completed_requests_this_month');
         $geminiUsage->increment('consumed_tokens_today',$tokens);
         $geminiUsage->increment('consumed_tokens_this_month',$tokens);
         $geminiUsage->update(['last_request_completion_time' => now()]);
+
+        $this->validateLimits($user);
 
     }
 
