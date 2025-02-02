@@ -32,54 +32,54 @@ class GeminiValidationTestController extends Controller
             $testCases = [
                 'valid_values' => [
                     'prompt' => 'Test prompt',
-                    'max_tokens' => 100,
+                    'max_tokens' => 8192,
                     'temperature' => 0.5,
                     'top_p' => 0.8,
                     'top_k' => 20,
                 ],
                 'invalid_top_k' => [
                     'prompt' => 'Test prompt',
-                    'max_tokens' => 100,
+                    'max_tokens' => 8192,
                     'temperature' => 0.5,
                     'top_p' => 0.8,
                     'top_k' => 50, // Invalid topK
                 ],
                 'invalid_top_p' => [
                     'prompt' => 'Test prompt',
-                    'max_tokens' => 100,
+                    'max_tokens' => 8192,
                     'temperature' => 0.5,
                     'top_p' => 1.5, // Invalid topP
                     'top_k' => 20,
                 ],
                 'missing_required_field' => [
-                    'max_tokens' => 100,
+                    'max_tokens' => 8192,
                     'temperature' => 0.5,
                     'top_p' => 0.8,
                     'top_k' => 20,
                 ],
                  'null_top_k' => [
                     'prompt' => 'Test prompt',
-                    'max_tokens' => 100,
+                    'max_tokens' => 8192,
                     'temperature' => 0.5,
                     'top_p' => 0.8,
                     'top_k' => null,
                 ],
                 'null_top_p' => [
                     'prompt' => 'Test prompt',
-                    'max_tokens' => 100,
+                    'max_tokens' => 8192,
                     'temperature' => 0.5,
                     'top_p' => null,
                     'top_k' => 20,
                 ],
                 'no_top_k' => [
                     'prompt' => 'Test prompt',
-                    'max_tokens' => 100,
+                    'max_tokens' => 8192,
                     'temperature' => 0.5,
                     'top_p' => 0.8,
                 ],
                 'invalid_temperature' => [
                     'prompt' => 'Test prompt',
-                    'max_tokens' => 100,
+                    'max_tokens' => 8192,
                     'temperature' => 3.0, // Invalid temperature
                     'top_p' => 0.8,
                     'top_k' => 20,
