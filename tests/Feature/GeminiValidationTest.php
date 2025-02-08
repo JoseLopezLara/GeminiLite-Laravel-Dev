@@ -9,7 +9,8 @@ use Tests\TestCase;
 class GeminiValidationTest extends TestCase
 {
     /**
-     * A basic feature test example.
+     * This test is to check all gemini models
+     * @group heavyRequest
      */
     public function test_example(): void
     {

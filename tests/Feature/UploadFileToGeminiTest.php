@@ -8,18 +8,27 @@ use Tests\TestCase;
 
 class UploadFileToGeminiTest extends TestCase
 {
+    /**
+     * @group lightRequest
+     */
     public function test_Process_file_from_path(): void
     {
         $response = $this->getJson(route('ProcessFileFromPath'));
 
         $response->assertStatus(200)->assertJson(['success' => true]);
     }
+    /**
+     * @group lightRequest
+     */
     public function test_process_file_from_upload(): void
     {
         $response = $this->getJson(route('ProcesssFileFromUpload'));
 
         $response->assertStatus(200)->assertJson(['success' => true]);
     }
+    /**
+     * @group lightRequest
+     */
     public function test_process_file(): void
     {
         $response = $this->getJson(route('test'));
