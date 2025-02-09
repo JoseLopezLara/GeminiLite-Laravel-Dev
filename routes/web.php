@@ -41,7 +41,7 @@ Route::get('/api/gemini/validation-test', [\App\Http\Controllers\GeminiValidatio
 Route::get('/testTokenCount', [TokenLimitController::class, 'tokenCounter'])->name('testTokenCounter');
 Route::get('/testCanMakeRequest', [TokenLimitController::class, 'canMakeRequestT'])->name('testCanMakeRequest');
 Route::get('/testIsActive', [TokenLimitController::class, 'isActive'])->name('testIsActive');
-Route::get('/testGeminiUsage', [TokenLimitController::class, 'updateUsage'])->name('testIsActive');
+Route::get('/testGeminiUsage', [TokenLimitController::class, 'updateUsage'])->name('testGeminiUsage');
 Route::get('/testAssignRole', [TokenLimitController::class, 'assigRoles'])->name('testAssignRole');
 Route::get('/testLimits', [TokenLimitController::class, 'limit'])->name('testLimits');
 Route::get('/testLog', [TokenLimitController::class, 'logs'])->name('testLog');

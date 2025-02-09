@@ -149,7 +149,7 @@ class TokenLimitController extends Controller
                         "success"=> true,
                         "message"=> "It works properly",
                         'usage' => GeminiLiteUsage::where('user_id', $testUser->id)->first(),
-                    ],402);
+                    ],403);
                 }
                 $response = $gemini->newPrompt($prompt);
                 $tokens = GeminiTokenCount::coutTextTokens($prompt);
@@ -193,7 +193,7 @@ class TokenLimitController extends Controller
             return response()->json([
                 "success"=> true,
                 "message"=> "Everithing OK",
-            ],220);
+            ],200);
 
         } catch (\Throwable $th) {
             return response()->json([

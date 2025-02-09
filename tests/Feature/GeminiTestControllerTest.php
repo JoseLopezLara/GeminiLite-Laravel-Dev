@@ -9,9 +9,6 @@ use Tests\TestCase;
 class GeminiTestControllerTest extends TestCase
 {
     /**
-     * A basic feature test example.
-     */
-    /**
      * @group lightRequest
      */
     public function test_GemniPrompts(): void
