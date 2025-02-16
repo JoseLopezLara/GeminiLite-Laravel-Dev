@@ -8,6 +8,12 @@ use LiteOpenSource\GeminiLiteLaravel\Src\Models\GeminiLiteRoleAssignment;
 
 class GeminiRoleService  implements GeminiRoleServiceInterface
 {
+    /**
+     * Method to assign a gemini role to a user
+     * @param $user
+     * @param $role
+     * @return bool
+     */
     public function assignRole($user, $role): bool
     {
          $roleModel = $role instanceof GeminiLiteRole

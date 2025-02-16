@@ -16,6 +16,11 @@ class GeminiTokenCountService implements GeminiTokenCountInterface{
         $this->secretAPIKey = $secretAPIKey;
     }
 
+    /**
+     * Method to count the number of tokens in a text
+     * @param $content : string
+     * @return mixed
+     */
     public function coutTextTokens($content):mixed  {
         $url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:countTokens?key='.$this->secretAPIKey;
          // Configura el cuerpo de la solicitud

@@ -11,6 +11,11 @@ use LiteOpenSource\GeminiLiteLaravel\Src\Models\GeminiLiteUsage;
 
 class GeminiLimitTokenService implements GeminiLimitTokenServiceInterface
 {
+    /**
+     * Method to check if the user can make a request to gemini
+     * @param $user
+     * @return bool
+     */
     public function canMakeRequest($user): bool
     {
         $usage = GeminiLiteUsage::where("user_id", $user->id)->first();
@@ -24,6 +29,11 @@ class GeminiLimitTokenService implements GeminiLimitTokenServiceInterface
         return $usage->can_make_requests;
     }
 
+    /**
+     * Method to initialize the usage of the user
+     * @param $user
+     * @return mixed
+     */
     private function initializeUsage($user)
     {
         return GeminiLiteUsage::create([
@@ -39,6 +49,16 @@ class GeminiLimitTokenService implements GeminiLimitTokenServiceInterface
         ]);
     }
 
+    /**
+     * Method to log the request made by the user
+     * @param $user
+     * @param $requestType
+     * @param $consumedTokens
+     * @param $requestSuccessful
+     * @param $requestData
+     * @param $responseData
+     * @return mixed
+     */
     public function logRequest($user, $requestType, $consumedTokens, $requestSuccessful, $requestData, $responseData)
     {
         GeminiLiteRequestLog::create([
@@ -50,6 +70,12 @@ class GeminiLimitTokenService implements GeminiLimitTokenServiceInterface
             'response_data' => $responseData,
         ]);
     }
+    /**
+     * Method to update the usage of the user
+     * @param $user : User
+     * @param $tokens : int 
+     * @return mixed
+     */
     public function updateUsage($user, $tokens){
         $geminiUsage = GeminiLiteUsage::where("user_id", $user->id)->first();
 
@@ -63,6 +89,11 @@ class GeminiLimitTokenService implements GeminiLimitTokenServiceInterface
 
     }
 
+    /**
+     * Method to validate the limits of the user
+     * @param $user
+     * @return bool
+     */
     private function validateLimits($user): bool{
         $this->validateDailyLimits($user);
         $this->validateMonthlyLimits($user);
@@ -89,6 +120,11 @@ class GeminiLimitTokenService implements GeminiLimitTokenServiceInterface
 
     }
 
+    /**
+     * Method to validate the daily limits of the user
+     * @param $user
+     * @return bool
+     */
     private function validateDailyLimits($user){
         $usage = GeminiLiteUsage::where("user_id", $user->id)->first();
         $lastRequestTime = \Carbon\Carbon::parse($usage->last_request_completion_time);
@@ -102,6 +138,11 @@ class GeminiLimitTokenService implements GeminiLimitTokenServiceInterface
             ]);
         }
     }
+    /**
+     * Method to validate the monthly limits of the user
+     * @param $user
+     * @return bool
+     */
     private function validateMonthlyLimits($user){
         $usage = GeminiLiteUsage::where("user_id", $user->id)->first();
         $lastRequestTime = \Carbon\Carbon::parse($usage->last_request_completion_time);
