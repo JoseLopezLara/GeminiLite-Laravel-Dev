@@ -6,6 +6,7 @@ use App\Http\Controllers\GeminiTestController;
 use App\Http\Controllers\GeminiTestNewModelsController;
 use App\Http\Controllers\TokenLimitController;
 use App\Http\Controllers\UploadFileToGeminiTestController;
+use App\Http\Controllers\EmbeddingTestController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -45,3 +46,9 @@ Route::get('/testGeminiUsage', [TokenLimitController::class, 'updateUsage'])->na
 Route::get('/testAssignRole', [TokenLimitController::class, 'assigRoles'])->name('testAssignRole');
 Route::get('/testLimits', [TokenLimitController::class, 'limit'])->name('testLimits');
 Route::get('/testLog', [TokenLimitController::class, 'logs'])->name('testLog');
+// Embedding Test Routes
+Route::prefix('api/embedding')->group(function () {
+    Route::post('/single', [EmbeddingTestController::class, 'testSingleEmbedding']);
+    Route::post('/batch', [EmbeddingTestController::class, 'testBatchEmbedding']);
+    Route::post('/similarity', [EmbeddingTestController::class, 'testSimilarity']);
+});
