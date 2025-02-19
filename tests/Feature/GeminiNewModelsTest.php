@@ -44,4 +44,32 @@ class GeminiNewModelsTest extends TestCase
 
         $response->assertStatus(200)->assertJson(['success' => true]);
     }
+    /**
+     * @group lightRequest
+     */
+    public function test_Gemini20Flash(): void
+    {
+        $response = $this->getJson(route('Gemini20Flash'));
+
+        $response->assertStatus(200)->assertJson(['success' => true]);
+    }
+    /**
+     * @group lightRequest
+     */
+    public function test_GeminiV2FlashLitePreview(): void
+    {
+        $response = $this->getJson(route('GeminiV2FlashLitePreview'));
+
+        $response->assertStatus(200)->assertJson(['success' => true]);
+    }
+
+    /**
+     * @group lightRequest
+     */
+    public function test_Gemini20ProExp(): void
+    {
+        $response = $this->getJson(route('Gemini20ProExp'));
+
+        $response->assertStatus(200)->assertJson(['success' => true]);
+    }
 }

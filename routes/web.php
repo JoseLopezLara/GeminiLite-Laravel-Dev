@@ -34,6 +34,9 @@ Route::get('/testGeminiFlashV2Exp', [GeminiTestNewModelsController::class, 'test
 Route::get('/testGeminiExp1206', [GeminiTestNewModelsController::class, 'testGeminiExp1206'])->name('GeminiExp1206');
 Route::get('/testLearnLMProExp', [GeminiTestNewModelsController::class, 'testLearnLMProExp'])->name('LearnLMPProExp');
 Route::get('/testGeminiFlashV2ThinkingExp', [GeminiTestNewModelsController::class, 'testGeminiFlashV2ThinkingExp'])->name('GeminiFlashV2ThinkingExp');
+Route::get('/testGemini20Flash', [GeminiTestNewModelsController::class, 'testGemini20Flash'])->name('Gemini20Flash');
+Route::get('/testGeminiV2FlashLitePreview', [GeminiTestNewModelsController::class, 'testGeminiV2FlashLitePreview'])->name('GeminiV2FlashLitePreview');
+Route::get('/testGemini20ProExp', [GeminiTestNewModelsController::class, 'testGemini20ProExp'])->name('Gemini20ProExp');
 
 // Gemini Validations Test
 Route::get('/api/gemini/validation-test', [\App\Http\Controllers\GeminiValidationTestController::class, 'testValidations'])->name('get.validLimits');
