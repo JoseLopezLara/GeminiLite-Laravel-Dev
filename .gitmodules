@@ -1,0 +1,3 @@
+[submodule "packages/liteopensource/gemini-lite-laravel"]
+    path = packages/liteopensource/gemini-lite-laravel
+    url = git@github.com:LiteOpenSource/GeminiLite-Laravel.git
