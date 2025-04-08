@@ -25,10 +25,14 @@ Gemini-Lite is a PHP SDK designed to interact with Gemini endpoints. This reposi
      - [Migrations](#migrations)
    - [API Key](#api-key)
    - [Modify the package](#modify-the-package)
-3. [Requirements](#requirements)
-4. [Configuration](#configuration)
-5. [Bugs](#bugs)
-6. [License](#license)
+3. [Available Gemini Models](#available-gemini-models)
+   - [Gemini 1.5 Models](#gemini-15-models)
+   - [Gemini 2.0 Models](#gemini-20-models)
+   - [Gemini 2.5 Models](#gemini-25-models)
+4. [Requirements](#requirements)
+5. [Configuration](#configuration)
+6. [Bugs](#bugs)
+7. [License](#license)
 
 ## Get Started
 
@@ -121,6 +125,40 @@ GEMINILITE_SECRET_API_KEY="YOUR_API_KEY"
 ```bash
 composer update
 composer dump-autoload
+```
+
+## Available Gemini Models
+
+This package supports a variety of Gemini AI models. Below is the list of currently available models you can use in your applications:
+
+### Gemini 1.5 Models
+
+- **gemini-1.5-flash**: The standard Gemini 1.5 Flash model for faster, more efficient responses.
+- **gemini-1.5-pro**: The professional version of Gemini 1.5 with enhanced capabilities.
+- **gemini-1.5-flash-8b**: A lightweight 8B parameter version of Gemini Flash.
+- **learnlm-1.5-pro-experimental**: An experimental learning-focused model built on Gemini 1.5.
+
+### Gemini 2.0 Models
+
+- **gemini-2.0-flash**: The standard Gemini 2.0 Flash model for improved speed and efficiency.
+- **gemini-2.0-flash-exp**: Experimental version of Gemini 2.0 Flash with additional features.
+- **gemini-2.0-flash-lite**: A lightweight version of Gemini 2.0 Flash.
+- **gemini-2.0-flash-lite-preview-02-05**: Preview version of the Flash Lite model.
+- **gemini-2.0-flash-thinking-exp-01-21**: Experimental model with enhanced reasoning capabilities.
+- **gemini-2.0-flash-exp-image-generation**: Specialized model for image generation tasks.
+
+### Gemini 2.5 Models
+
+- **gemini-2.5-pro-exp-03-25**: The experimental version of Gemini 2.5 Pro with free quota tier access.
+
+> **Note**: The `gemini-2.5-pro-preview-03-25` model is also available but doesn't have a free quota tier. Google recommends using the experimental version (`gemini-2.5-pro-exp-03-25`) for free tier access.
+
+To use a specific model, you can change it using:
+
+```php
+$gemini = Gemini::newChat();
+$gemini->changeGeminiModel('gemini-2.0-flash');
+$response = $gemini->newPrompt('Your prompt here');
 ```
 
 ## Requirements

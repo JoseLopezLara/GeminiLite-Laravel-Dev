@@ -31,12 +31,14 @@ Route::get('/testGeminiChatHistory', [GeminiTestController::class, 'testGeminiCh
 
 // New Gemini Models Test
 Route::get('/testGeminiFlashV2Exp', [GeminiTestNewModelsController::class, 'testGeminiFlashV2Exp'])->name('get.GeminiFlashV2Exp');
-Route::get('/testGeminiExp1206', [GeminiTestNewModelsController::class, 'testGeminiExp1206'])->name('GeminiExp1206');
 Route::get('/testLearnLMProExp', [GeminiTestNewModelsController::class, 'testLearnLMProExp'])->name('LearnLMPProExp');
 Route::get('/testGeminiFlashV2ThinkingExp', [GeminiTestNewModelsController::class, 'testGeminiFlashV2ThinkingExp'])->name('GeminiFlashV2ThinkingExp');
 Route::get('/testGemini20Flash', [GeminiTestNewModelsController::class, 'testGemini20Flash'])->name('Gemini20Flash');
 Route::get('/testGeminiV2FlashLitePreview', [GeminiTestNewModelsController::class, 'testGeminiV2FlashLitePreview'])->name('GeminiV2FlashLitePreview');
-Route::get('/testGemini20ProExp', [GeminiTestNewModelsController::class, 'testGemini20ProExp'])->name('Gemini20ProExp');
+Route::get('/testGeminiV2FlashLite', [GeminiTestNewModelsController::class, 'testGeminiV2FlashLite'])->name('GeminiV2FlashLite');
+Route::get('/testGeminiFlashV2ExpImageGeneration', [GeminiTestNewModelsController::class, 'testGeminiFlashV2ExpImageGeneration'])->name('GeminiFlashV2ExpImageGeneration');
+Route::get('/testGemini25ProPreview', [GeminiTestNewModelsController::class, 'testGemini25ProPreview'])->name('Gemini25ProPreview');
+Route::get('/testGemini25ProExp', [GeminiTestNewModelsController::class, 'testGemini25ProExp'])->name('Gemini25ProExp');
 
 // Gemini Validations Test
 Route::get('/api/gemini/validation-test', [\App\Http\Controllers\GeminiValidationTestController::class, 'testValidations'])->name('get.validLimits');
