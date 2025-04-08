@@ -410,7 +410,7 @@ Always return a nutritional profile for food or beverages, adhering to the respo
 
             Log::info('-------------Change config to use JSON MODE-----------------');
             $geminiChat1->setGeminiModelConfig(1, 40, 0.95, 8192, 'application/json', $responseSchema);
-            $geminiChat1->setGeminiModelConfig(1, 64, 0.95, 8192, 'application/json', $responseSchema);
+            $geminiChat1->setGeminiModelConfig(1, 40, 0.95, 8192, 'application/json', $responseSchema);
 
             Log::info('-------------First prompt-----------------');
             $response1 = $geminiChat1->newPrompt($prompt, $uri, $mimeType);

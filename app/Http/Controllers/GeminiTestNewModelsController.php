@@ -247,9 +247,10 @@ class GeminiTestNewModelsController extends Controller
     public function testGemini25ProPreview()
     {
         try {
-            // Initialize Gemini chat with the specified model.
+            // Inicializar Gemini chat con el modelo experimental en lugar del preview
+            // ya que el modelo preview no tiene capa gratuita según el error 429
             $gemini = Gemini::newChat();
-            $gemini->changeGeminiModel('gemini-2.5-pro-preview-03-25');
+            $gemini->changeGeminiModel('gemini-2.5-pro-exp-03-25');
 
             // Send a simple prompt to test the model.
             $response = $gemini->newPrompt('Explain quantum computing in simple terms');
@@ -257,7 +258,41 @@ class GeminiTestNewModelsController extends Controller
             // Return a successful response with the model's answer.
             return response()->json([
                 'success' => true,
-                'message' => 'Test for GEMINI_2_5_PRO_PREVIEW successful',
+                'message' => 'Test for GEMINI_2_5_PRO_PREVIEW successful (using experimental model)',
+                'data' => [
+                    'response' => $response,
+                    'note' => 'Using experimental model instead of preview model due to quota restrictions'
+                ],
+            ], 200);
+        } catch (\Exception $e) {
+            // Handle any errors that occur during the test.
+            return response()->json([
+                'success' => false,
+                'message' => 'Test for GEMINI_2_5_PRO_PREVIEW failed',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    /**
+     * Test endpoint for GEMINI_2_5_PRO_EXP model.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function testGemini25ProExp()
+    {
+        try {
+            // Initialize Gemini chat with the specified model.
+            $gemini = Gemini::newChat();
+            $gemini->changeGeminiModel('gemini-2.5-pro-exp-03-25');
+
+            // Send a simple prompt to test the model.
+            $response = $gemini->newPrompt('Explain quantum computing in simple terms');
+
+            // Return a successful response with the model's answer.
+            return response()->json([
+                'success' => true,
+                'message' => 'Test for GEMINI_2_5_PRO_EXP successful',
                 'data' => [
                     'response' => $response,
                 ],
@@ -266,7 +301,7 @@ class GeminiTestNewModelsController extends Controller
             // Handle any errors that occur during the test.
             return response()->json([
                 'success' => false,
-                'message' => 'Test for GEMINI_2_5_PRO_PREVIEW failed',
+                'message' => 'Test for GEMINI_2_5_PRO_EXP failed',
                 'error' => $e->getMessage(),
             ], 500);
         }

@@ -79,4 +79,13 @@ class GeminiNewModelsTest extends TestCase
         $response = $this->getJson(route('Gemini25ProPreview'));
         $response->assertStatus(200)->assertJson(['success' => true]);
     }
+    
+    /**
+     * @group lightRequestC
+     */
+    public function test_Gemini25ProExp(): void
+    {
+        $response = $this->getJson(route('Gemini25ProExp'));
+        $response->assertStatus(200)->assertJson(['success' => true]);
+    }
 }

@@ -38,6 +38,7 @@ Route::get('/testGeminiV2FlashLitePreview', [GeminiTestNewModelsController::clas
 Route::get('/testGeminiV2FlashLite', [GeminiTestNewModelsController::class, 'testGeminiV2FlashLite'])->name('GeminiV2FlashLite');
 Route::get('/testGeminiFlashV2ExpImageGeneration', [GeminiTestNewModelsController::class, 'testGeminiFlashV2ExpImageGeneration'])->name('GeminiFlashV2ExpImageGeneration');
 Route::get('/testGemini25ProPreview', [GeminiTestNewModelsController::class, 'testGemini25ProPreview'])->name('Gemini25ProPreview');
+Route::get('/testGemini25ProExp', [GeminiTestNewModelsController::class, 'testGemini25ProExp'])->name('Gemini25ProExp');
 
 // Gemini Validations Test
 Route::get('/api/gemini/validation-test', [\App\Http\Controllers\GeminiValidationTestController::class, 'testValidations'])->name('get.validLimits');
