@@ -42,39 +42,6 @@ class GeminiTestNewModelsController extends Controller
     }
 
     /**
-     * Test endpoint for GEMINI_EXP_1206 model.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function testGeminiExp1206()
-    {
-        try {
-            // Initialize Gemini chat with the specified model.
-            $gemini = Gemini::newChat();
-            $gemini->changeGeminiModel('gemini-exp-1206');
-
-            // Send a simple prompt to test the model.
-            $response = $gemini->newPrompt('What is the largest planet in our solar system?');
-
-            // Return a successful response with the model's answer.
-            return response()->json([
-                'success' => true,
-                'message' => 'Test for GEMINI_EXP_1206 successful',
-                'data' => [
-                    'response' => $response,
-                ],
-            ], 200);
-        } catch (\Exception $e) {
-            // Handle any errors that occur during the test.
-            return response()->json([
-                'success' => false,
-                'message' => 'Test for GEMINI_EXP_1206 failed',
-                'error' => $e->getMessage(),
-            ], 500);
-        }
-    }
-
-    /**
      * Test endpoint for LEARNLM_1_5_PRO_EXP model.
      *
      * @return \Illuminate\Http\JsonResponse
@@ -183,7 +150,7 @@ class GeminiTestNewModelsController extends Controller
         try {
             // Initialize Gemini chat with the specified model.
             $gemini = Gemini::newChat();
-            $gemini->changeGeminiModel('gemini-v2-flash-lite-preview');
+            $gemini->changeGeminiModel('gemini-2.0-flash-lite-preview-02-05');
 
             // Send a simple prompt to test the model.
             $response = $gemini->newPrompt('What is the capital of Japan?');
@@ -207,24 +174,24 @@ class GeminiTestNewModelsController extends Controller
     }
 
     /**
-     * Test endpoint for GEMINI_2_0_PRO_EXP model.
+     * Test endpoint for GEMINI_V2_FLASH_LITE model.
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function testGemini20ProExp()
+    public function testGeminiV2FlashLite()
     {
         try {
             // Initialize Gemini chat with the specified model.
             $gemini = Gemini::newChat();
-            $gemini->changeGeminiModel('gemini-2.0-pro-exp-02-05');
+            $gemini->changeGeminiModel('gemini-2.0-flash-lite');
 
             // Send a simple prompt to test the model.
-            $response = $gemini->newPrompt('What are some ways to improve code quality?');
+            $response = $gemini->newPrompt('What is the boiling point of water?');
 
             // Return a successful response with the model's answer.
             return response()->json([
                 'success' => true,
-                'message' => 'Test for GEMINI_2_0_PRO_EXP successful',
+                'message' => 'Test for GEMINI_V2_FLASH_LITE successful',
                 'data' => [
                     'response' => $response,
                 ],
@@ -233,7 +200,73 @@ class GeminiTestNewModelsController extends Controller
             // Handle any errors that occur during the test.
             return response()->json([
                 'success' => false,
-                'message' => 'Test for GEMINI_2_0_PRO_EXP failed',
+                'message' => 'Test for GEMINI_V2_FLASH_LITE failed',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    /**
+     * Test endpoint for GEMINI_FLASH_V2_0_EXP_IMAGE_GENERATION model.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function testGeminiFlashV2ExpImageGeneration()
+    {
+        try {
+            // Initialize Gemini chat with the specified model.
+            $gemini = Gemini::newChat();
+            $gemini->changeGeminiModel('gemini-2.0-flash-exp-image-generation');
+
+            // Send a simple prompt to test the model.
+            $response = $gemini->newPrompt('Describe how to create a watercolor painting');
+
+            // Return a successful response with the model's answer.
+            return response()->json([
+                'success' => true,
+                'message' => 'Test for GEMINI_FLASH_V2_0_EXP_IMAGE_GENERATION successful',
+                'data' => [
+                    'response' => $response,
+                ],
+            ], 200);
+        } catch (\Exception $e) {
+            // Handle any errors that occur during the test.
+            return response()->json([
+                'success' => false,
+                'message' => 'Test for GEMINI_FLASH_V2_0_EXP_IMAGE_GENERATION failed',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    /**
+     * Test endpoint for GEMINI_2_5_PRO_PREVIEW model.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function testGemini25ProPreview()
+    {
+        try {
+            // Initialize Gemini chat with the specified model.
+            $gemini = Gemini::newChat();
+            $gemini->changeGeminiModel('gemini-2.5-pro-preview-03-25');
+
+            // Send a simple prompt to test the model.
+            $response = $gemini->newPrompt('Explain quantum computing in simple terms');
+
+            // Return a successful response with the model's answer.
+            return response()->json([
+                'success' => true,
+                'message' => 'Test for GEMINI_2_5_PRO_PREVIEW successful',
+                'data' => [
+                    'response' => $response,
+                ],
+            ], 200);
+        } catch (\Exception $e) {
+            // Handle any errors that occur during the test.
+            return response()->json([
+                'success' => false,
+                'message' => 'Test for GEMINI_2_5_PRO_PREVIEW failed',
                 'error' => $e->getMessage(),
             ], 500);
         }
