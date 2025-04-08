@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ce1d0527d2c6b03ad63ec346e1d6a779",
+    "content-hash": "b007ecab017230265595061e02c733de",
     "packages": [
         {
             "name": "brick/math",
@@ -2008,11 +2008,11 @@
         },
         {
             "name": "liteopensource/gemini-lite-laravel",
-            "version": "dev-main",
+            "version": "0.0.4",
             "dist": {
                 "type": "path",
                 "url": "packages/liteopensource/gemini-lite-laravel",
-                "reference": "eba6fe8ed64c9a689a274b8fe53852016d76c99e"
+                "reference": "af5de8d6d712b907e15fad61852ad0c0f31bcd2d"
             },
             "require": {
                 "guzzlehttp/guzzle": "^7.0",
@@ -2046,6 +2046,14 @@
                 {
                     "name": "JoseLopezLara",
                     "email": "jose.lopez.lara.cto@gmail.com"
+                },
+                {
+                    "name": "JonathanSerafinCM",
+                    "email": "iscjonathanserafin@gmail.com"
+                },
+                {
+                    "name": "edgarml01",
+                    "email": "egarmola08@gmail.com"
                 }
             ],
             "description": "Redisingned and easy to use Gemini Lite SDK for Laravel",
@@ -8113,9 +8121,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "liteopensource/gemini-lite-laravel": 20
-    },
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
