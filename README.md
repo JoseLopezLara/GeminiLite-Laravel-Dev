@@ -26,8 +26,8 @@ Gemini-Lite is a PHP SDK designed to interact with Gemini endpoints. This reposi
    - [API Key](#api-key)
    - [Modify the package](#modify-the-package)
 3. [Available Gemini Models](#available-gemini-models)
-   - [Gemini 1.5 Models](#gemini-15-models)
-   - [Gemini 2.0 Models](#gemini-20-models)
+   - [Stable Models](#stable-models)
+   - [Experimental Models](#experimental-models)
    - [Gemini 2.5 Models](#gemini-25-models)
 4. [Requirements](#requirements)
 5. [Configuration](#configuration)
@@ -131,27 +131,29 @@ composer dump-autoload
 
 This package supports a variety of Gemini AI models. Below is the list of currently available models you can use in your applications:
 
-### Gemini 1.5 Models
+### Stable Models
 
-- **gemini-1.5-flash**: The standard Gemini 1.5 Flash model for faster, more efficient responses.
-- **gemini-1.5-pro**: The professional version of Gemini 1.5 with enhanced capabilities.
-- **gemini-1.5-flash-8b**: A lightweight 8B parameter version of Gemini Flash.
-- **learnlm-1.5-pro-experimental**: An experimental learning-focused model built on Gemini 1.5.
-
-### Gemini 2.0 Models
-
-- **gemini-2.0-flash**: The standard Gemini 2.0 Flash model for improved speed and efficiency.
-- **gemini-2.0-flash-exp**: Experimental version of Gemini 2.0 Flash with additional features.
+- **gemini-1.5-flash**: Fast and efficient model for everyday use.
+- **gemini-1.5-pro**: Advanced professional model with enhanced capabilities.
+- **gemini-1.5-flash-8b**: Lightweight 8B parameter version for faster processing.
+- **gemini-2.0-flash**: Improved speed and performance in the 2.0 series.
 - **gemini-2.0-flash-lite**: A lightweight version of Gemini 2.0 Flash.
-- **gemini-2.0-flash-lite-preview-02-05**: Preview version of the Flash Lite model.
-- **gemini-2.0-flash-thinking-exp-01-21**: Experimental model with enhanced reasoning capabilities.
+- **gemini-2.0-flash-lite-preview-02-05**: Preview of the lightweight 2.0 version.
+
+### Experimental Models
+
+- **gemini-2.0-flash-exp**: Cutting-edge features in the experimental Flash model.
+- **gemini-2.0-pro-exp-02-05**: Professional experimental model in the 2.0 series.
+- **gemini-2.0-flash-thinking-exp-01-21**: Enhanced reasoning capabilities.
 - **gemini-2.0-flash-exp-image-generation**: Specialized model for image generation tasks.
+- **learnlm-1.5-pro-experimental**: Learning-focused experimental model.
 
 ### Gemini 2.5 Models
 
-- **gemini-2.5-pro-exp-03-25**: The experimental version of Gemini 2.5 Pro with free quota tier access.
+- **gemini-2.5-pro-preview-03-25**: Preview version of Gemini 2.5 Pro (note: no free quota tier).
+- **gemini-2.5-pro-exp-03-25**: Experimental version of Gemini 2.5 Pro with free quota tier access.
 
-> **Note**: The `gemini-2.5-pro-preview-03-25` model is also available but doesn't have a free quota tier. Google recommends using the experimental version (`gemini-2.5-pro-exp-03-25`) for free tier access.
+> **Note**: The `gemini-2.5-pro-preview-03-25` model doesn't have a free quota tier. Google recommends using the experimental version (`gemini-2.5-pro-exp-03-25`) for free tier access.
 
 To use a specific model, you can change it using:
 
